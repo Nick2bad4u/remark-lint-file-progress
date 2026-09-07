@@ -1,0 +1,6 @@
+# yaml-language-server: $schema=https://www.schemastore.org/actionlint.json
+# Workflows use standard GitHub-hosted runners and no repository variables.
+config-variables: []
+paths: {}
+self-hosted-runner:
+    labels: []

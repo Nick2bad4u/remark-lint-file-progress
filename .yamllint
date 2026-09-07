@@ -1,0 +1,12 @@
+extends: "node_modules/yamllint-config-nick2bad4u/.yamllint"
+ignore: |
+    .playwright-cli/
+    reports/
+    node_modules/
+    dist/
+    coverage/
+    .cache/
+    .temp/
+    docs/docusaurus/build/
+    docs/docusaurus/.docusaurus/
+    docs/docusaurus/static/

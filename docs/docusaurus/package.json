@@ -1,0 +1,64 @@
+{
+    "name": "@remark-lint-file-progress/docs",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Documentation for remark-lint-file-progress",
+    "keywords": [
+        "remark",
+        "remark-plugin",
+        "progress",
+        "markdown"
+    ],
+    "homepage": "https://nick2bad4u.github.io/remark-lint-file-progress/",
+    "bugs": {
+        "url": "https://github.com/Nick2bad4u/remark-lint-file-progress/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nick2bad4u/remark-lint-file-progress.git"
+    },
+    "license": "MIT",
+    "author": "Nick2bad4u",
+    "contributors": [
+        {
+            "name": "Nick2bad4u",
+            "url": "https://github.com/Nick2bad4u"
+        }
+    ],
+    "main": "docusaurus.config.ts",
+    "scripts": {
+        "clear": "docusaurus clear",
+        "docs:api": "typedoc --options typedoc.config.json && npm --prefix ../.. run docs:check-api",
+        "docs:build": "npm run docs:api && npm --prefix ../.. run build:eslint-inspector && npm --prefix ../.. run build:stylelint-inspector && npm --prefix ../.. run build:remark-inspector && docusaurus build",
+        "serve": "docusaurus serve",
+        "start": "docusaurus start"
+    },
+    "dependencies": {
+        "@docusaurus/core": "^3.10.2",
+        "@docusaurus/plugin-content-docs": "^3.10.2",
+        "@docusaurus/plugin-pwa": "^3.10.2",
+        "@docusaurus/preset-classic": "^3.10.2",
+        "react": "^19.2.8",
+        "react-dom": "^19.2.8"
+    },
+    "devDependencies": {
+        "@docusaurus/types": "^3.10.2",
+        "@types/react": "^19.2.18"
+    },
+    "packageManager": "npm@12.0.2",
+    "engines": {
+        "node": ">=22.0.0"
+    },
+    "devEngines": {
+        "runtime": {
+            "name": "node",
+            "version": "^22.22.3 || ^24.16.0 || >=26.3.0",
+            "onFail": "error"
+        },
+        "packageManager": {
+            "name": "npm",
+            "version": "12.0.2",
+            "onFail": "error"
+        }
+    }
+}

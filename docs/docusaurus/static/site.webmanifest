@@ -1,0 +1,16 @@
+{
+    "background_color": "#101923",
+    "display": "standalone",
+    "icons": [
+        {
+            "purpose": "any",
+            "sizes": "any",
+            "src": "img/favicon.svg",
+            "type": "image/svg+xml"
+        }
+    ],
+    "name": "Remark File Progress",
+    "short_name": "File Progress",
+    "start_url": "/remark-lint-file-progress/",
+    "theme_color": "#10bfae"
+}

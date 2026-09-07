@@ -1,0 +1,336 @@
+{
+    "$schema": "https://www.schemastore.org/package.json",
+    "name": "remark-lint-file-progress",
+    "version": "0.1.0",
+    "private": false,
+    "description": "Live per-file progress and process summaries for remark",
+    "keywords": [
+        "remark",
+        "remark-plugin",
+        "remark-lint",
+        "unified",
+        "progress",
+        "markdown"
+    ],
+    "homepage": "https://nick2bad4u.github.io/remark-lint-file-progress/",
+    "bugs": {
+        "url": "https://github.com/Nick2bad4u/remark-lint-file-progress/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nick2bad4u/remark-lint-file-progress.git"
+    },
+    "license": "MIT",
+    "author": "Nick2bad4u",
+    "contributors": [
+        {
+            "name": "Nick2bad4u",
+            "url": "https://github.com/Nick2bad4u"
+        }
+    ],
+    "sideEffects": false,
+    "type": "module",
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/plugin.d.ts",
+                "default": "./dist/plugin.js"
+            },
+            "require": {
+                "types": "./dist/plugin.d.cts",
+                "default": "./dist/plugin.cjs"
+            }
+        },
+        "./configs/recommended": {
+            "import": {
+                "types": "./dist/configs/recommended.d.ts",
+                "default": "./dist/configs/recommended.js"
+            },
+            "require": {
+                "types": "./dist/configs/recommended.d.cts",
+                "default": "./dist/configs/recommended.cjs"
+            }
+        },
+        "./configs/recommended-ci": {
+            "import": {
+                "types": "./dist/configs/recommended-ci.d.ts",
+                "default": "./dist/configs/recommended-ci.js"
+            },
+            "require": {
+                "types": "./dist/configs/recommended-ci.d.cts",
+                "default": "./dist/configs/recommended-ci.cjs"
+            }
+        },
+        "./configs/recommended-ci-detailed": {
+            "import": {
+                "types": "./dist/configs/recommended-ci-detailed.d.ts",
+                "default": "./dist/configs/recommended-ci-detailed.js"
+            },
+            "require": {
+                "types": "./dist/configs/recommended-ci-detailed.d.cts",
+                "default": "./dist/configs/recommended-ci-detailed.cjs"
+            }
+        },
+        "./configs/recommended-compact": {
+            "import": {
+                "types": "./dist/configs/recommended-compact.d.ts",
+                "default": "./dist/configs/recommended-compact.js"
+            },
+            "require": {
+                "types": "./dist/configs/recommended-compact.d.cts",
+                "default": "./dist/configs/recommended-compact.cjs"
+            }
+        },
+        "./configs/recommended-detailed": {
+            "import": {
+                "types": "./dist/configs/recommended-detailed.d.ts",
+                "default": "./dist/configs/recommended-detailed.js"
+            },
+            "require": {
+                "types": "./dist/configs/recommended-detailed.d.cts",
+                "default": "./dist/configs/recommended-detailed.cjs"
+            }
+        },
+        "./configs/recommended-summary-only": {
+            "import": {
+                "types": "./dist/configs/recommended-summary-only.d.ts",
+                "default": "./dist/configs/recommended-summary-only.js"
+            },
+            "require": {
+                "types": "./dist/configs/recommended-summary-only.d.cts",
+                "default": "./dist/configs/recommended-summary-only.cjs"
+            }
+        },
+        "./configs/recommended-tty": {
+            "import": {
+                "types": "./dist/configs/recommended-tty.d.ts",
+                "default": "./dist/configs/recommended-tty.js"
+            },
+            "require": {
+                "types": "./dist/configs/recommended-tty.d.cts",
+                "default": "./dist/configs/recommended-tty.cjs"
+            }
+        },
+        "./package.json": "./package.json"
+    },
+    "main": "./dist/plugin.cjs",
+    "module": "./dist/plugin.js",
+    "types": "./dist/plugin.d.cts",
+    "typesVersions": {
+        "*": {
+            "configs/*": [
+                "dist/configs/*.d.cts"
+            ]
+        }
+    },
+    "files": [
+        "dist",
+        "docs/rules",
+        "CHANGELOG.md",
+        "NOTICE"
+    ],
+    "workspaces": [
+        "docs/docusaurus"
+    ],
+    "scripts": {
+        "build": "node --experimental-config-file=node.config.json scripts/build.mjs",
+        "build:eslint-inspector": "eslint-config-inspector build --outDir docs/docusaurus/static/eslint-inspector --base /remark-lint-file-progress/eslint-inspector/ && node scripts/finalize-inspector-assets.mjs eslint",
+        "build:remark-inspector": "remark-config-inspector build --outDir docs/docusaurus/static/remark-inspector --base /remark-lint-file-progress/remark-inspector/ && node scripts/finalize-inspector-assets.mjs remark",
+        "build:stylelint-inspector": "stylelint-config-inspector build --outDir docs/docusaurus/static/stylelint-inspector --base /remark-lint-file-progress/stylelint-inspector/",
+        "changelog:generate": "git cliff --config node_modules/gitcliff-config-nick2bad4u/cliff.toml --github-repo Nick2bad4u/remark-lint-file-progress --output CHANGELOG.md",
+        "changelog:preview": "git cliff --config node_modules/gitcliff-config-nick2bad4u/cliff.toml --unreleased",
+        "check:types": "npm run lint:attw",
+        "clean:cache": "npx -y del-cli dist coverage cache .cache .vite .turbo",
+        "clean:cache:coverage": "npx -y del-cli coverage .coverage",
+        "clean:cache:dist": "npx -y del-cli dist release",
+        "clean:cache:eslint": "npx del-cli .eslintcache .cache/.eslintcache node_modules/.cache/eslint-plugin-json-schema-validator-2 node_modules/.cache/eslint-plugin-tombi",
+        "clean:cache:ncu": "npx -y del-cli .cache/.ncu-cache.json",
+        "clean:cache:prettier": "npx -y del-cli .cache/.prettier-cache .prettier-cache .prettiercache",
+        "clean:cache:stryker": "npx -y del-cli .stryker-tmp",
+        "clean:cache:stylelint": "npx -y del-cli .cache/stylelintcache stylelintcache .stylelintcache",
+        "clean:cache:temp": "npx -y del-cli .temp/**",
+        "clean:cache:typescript": "npx -y del-cli .cache/**/*.tsbuildinfo .cache/builds",
+        "clean:cache:vite": "npx -y del-cli .cache/vite .cache/vitest .cache/vitest-zero-coverage .cache/vite-zero-coverage",
+        "clean:docs": "npx -y del-cli docs/docusaurus/.docusaurus docs/docusaurus/build docs/docusaurus/site-docs/developer/api",
+        "clean:docusaurus": "npm run clean:docs && npm run --workspace docs/docusaurus clear",
+        "coverage": "npm run test:coverage",
+        "docs:api": "npm run docs:api --workspace docs/docusaurus",
+        "docs:build": "npm run build && npm run docs:build --workspace docs/docusaurus",
+        "docs:check-api": "node scripts/check-api.mjs",
+        "docs:check-links": "node scripts/check-docs.mjs",
+        "predocs:demos:check": "npm run build",
+        "docs:demos:check": "node scripts/demos.mjs --check",
+        "predocs:demos:write": "npm run build",
+        "docs:demos:write": "node scripts/demos.mjs",
+        "docs:serve": "npm run serve --workspace docs/docusaurus --",
+        "docs:start": "npm run start --workspace docs/docusaurus --",
+        "docs:typecheck": "tsc --noEmit -p docs/docusaurus/tsconfig.json",
+        "prelint": "npm run build",
+        "lint": "npx cross-env NODE_OPTIONS=--max_old_space_size=8192 npx eslint . --cache --cache-strategy content --cache-location .cache/.eslintcache",
+        "lint:actions": "actionlint -color -shellcheck= -pyflakes=",
+        "lint:all": "npm run lint && npm run lint:prettier && npm run lint:css && npm run lint:remark && npm run lint:package && npm run lint:yaml && npm run lint:actions && npm run lint:secretlint && npm run lint:jscpd",
+        "lint:all:fix": "npm run lint:fix && npm run lint:css:fix && npm run lint:remark:fix && npm run lint:yaml:fix && npm run lint:package:fix && npm run lint:prettier:fix && npm run lint:all && npm run typecheck && npm run test",
+        "lint:all:nocache": "npm run lint:nocache && npm run lint:prettier && npm run lint:css && npm run lint:remark && npm run lint:package && npm run lint:yaml && npm run lint:actions && npm run lint:secretlint && npm run lint:jscpd && npm run typecheck && npm run test",
+        "lint:attw": "attw --config-path node_modules/attw-config-nick2bad4u/profiles/strict.json",
+        "lint:css": "stylelint \"docs/docusaurus/src/**/*.css\"",
+        "lint:css:fix": "stylelint \"docs/docusaurus/src/**/*.css\" --fix",
+        "prelint:fix": "npm run build",
+        "lint:fix": "npm run lint -- --fix",
+        "lint:gitleaks": "gitleaks dir --config .gitleaks.toml --redact .",
+        "lint:jscpd": "jscpd src --config node_modules/jscpd-config-nick2bad4u/jscpd.json",
+        "lint:lychee": "lychee --config node_modules/lychee-config-nick2bad4u/lychee.toml README.md docs/rules",
+        "prelint:nocache": "npm run build",
+        "lint:nocache": "npx cross-env NODE_OPTIONS=--max_old_space_size=8192 npx eslint . --no-cache",
+        "lint:package": "sort-package-json --check package.json docs/docusaurus/package.json && npmPkgJsonLint .",
+        "lint:package:fix": "sort-package-json package.json docs/docusaurus/package.json",
+        "lint:package:strict": "npm run package:check && npm run lint:publint && npm run lint:attw && npm run lint:package-json && npm run lint:package-sort",
+        "lint:package-check": "npm run lint:publint && npm run lint:attw",
+        "lint:package-fix": "npm run lint:package:fix",
+        "lint:package-json": "npx npmPkgJsonLint . --config .npmpackagejsonlintrc.json",
+        "lint:package-sort": "sort-package-json --check package.json docs/docusaurus/package.json",
+        "lint:prettier": "prettier . --check",
+        "lint:prettier:fix": "prettier . --write",
+        "lint:publint": "npx publint",
+        "prelint:remark": "npm run build",
+        "lint:remark": "remark README.md CONTRIBUTING.md SECURITY.md SUPPORT.md AGENTS.md docs --frail",
+        "lint:remark:fix": "npm run lint:remark -- --output",
+        "lint:secretlint": "npx secretlint --secretlintrc .secretlintrc.cjs --secretlintignore .gitignore \"**/*\"",
+        "lint:yaml": "yamllint-js .",
+        "lint:yaml:fix": "prettier \"**/*.{yml,yaml}\" --write",
+        "lint:yamllint": "npm run lint:yaml",
+        "prepack": "npm run build",
+        "package:check": "npm run build && npm pack --dry-run --ignore-scripts",
+        "prepublishOnly": "npm run release:verify",
+        "release:check": "npm run release:verify",
+        "release:check-tarball": "node scripts/check-release-tarball.mjs",
+        "release:verify": "npm run build && npm run typecheck && npm run lint:all && npm run test:coverage && npm run test:docs-images && npm run sync:rules:check && npm run docs:demos:check && npm run docs:typecheck && npm run docs:build && npm run docs:check-links && npm run lint:package-check && npm run test:compat",
+        "presync:configs-rules-matrix": "npm run build",
+        "sync:configs-rules-matrix": "node scripts/sync.mjs",
+        "sync:node-version-files": "node scripts/sync-node-version-files.mjs",
+        "presync:readme-rules-table": "npm run build",
+        "sync:readme-rules-table": "node scripts/sync.mjs",
+        "presync:rules:check": "npm run build",
+        "sync:rules:check": "node scripts/sync.mjs",
+        "presync:rules:write": "npm run build",
+        "sync:rules:write": "node scripts/sync.mjs --write",
+        "pretest": "npm run build",
+        "test": "vitest run",
+        "pretest:compat": "npm run build",
+        "test:compat": "node scripts/compat.mjs",
+        "pretest:compat:minimum": "npm run build",
+        "test:compat:minimum": "node scripts/compat.mjs --minimum-node",
+        "pretest:compat:windows-console": "npm run build",
+        "test:compat:windows-console": "node scripts/compat.mjs --minimum-node --windows-console",
+        "pretest:coverage": "npm run build",
+        "test:coverage": "vitest run --coverage",
+        "pretest:coverage:ci": "npm run build",
+        "test:coverage:ci": "vitest run --coverage --reporter=default --reporter=junit --outputFile.junit=test-report.junit.xml",
+        "test:docs-images": "node scripts/check-docs-images.mjs",
+        "typecheck": "tsc --noEmit -p tsconfig.json",
+        "update:dependencies": "ncu --configFilePath node_modules/ncu-config-nick2bad4u --configFileName .ncurc.json",
+        "update-actions": "actions-up --yes --style sha --quiet",
+        "update-all": "npm run update-actions && npm run update-deps",
+        "update-deps": "npx ncu --configFileName .ncurc.json --configFilePath node_modules/ncu-config-nick2bad4u && npx cross-env npm_config_allow_scripts= npm update && npm run sync:node-version-files"
+    },
+    "overrides": {
+        "@docusaurus/mdx-loader": {
+            "image-size": "npm:image-size-next@2.1.1"
+        },
+        "qs": "^6.16.0",
+        "serialize-javascript": "^7.1.1",
+        "sockjs": {
+            "uuid": "^11.1.1"
+        }
+    },
+    "dependencies": {
+        "@types/mdast": "^4.0.4",
+        "picocolors": "^1.1.1",
+        "ts-extras": "^1.3.0"
+    },
+    "devDependencies": {
+        "@arethetypeswrong/cli": "^0.18.5",
+        "@eslint/config-inspector": "^3.4.0",
+        "@types/node": "^26.5.0",
+        "@vitest/coverage-v8": "^4.1.11",
+        "attw-config-nick2bad4u": "^1.0.0",
+        "cross-env": "^10.1.0",
+        "esbuild": "^0.28.2",
+        "eslint": "^10.10.0",
+        "eslint-config-nick2bad4u": "^14.2.1",
+        "gitcliff-config-nick2bad4u": "^1.5.0",
+        "gitleaks-config-nick2bad4u": "^1.0.5",
+        "jscpd": "^5.1.2",
+        "jscpd-config-nick2bad4u": "^1.1.1",
+        "lychee-config-nick2bad4u": "^3.0.2",
+        "ncu-config-nick2bad4u": "^0.2.1",
+        "npm-check-updates": "^23.1.0",
+        "npm-package-json-lint": "^11.0.0",
+        "npm-package-json-lint-config-nick2bad4u": "^1.0.4",
+        "prettier": "^3.9.6",
+        "prettier-config-nick2bad4u": "^2.0.4",
+        "publint": "^0.3.24",
+        "remark": "^15.0.1",
+        "remark-cli": "^12.0.1",
+        "remark-config-inspector": "^2.2.7",
+        "remark-config-nick2bad4u": "^1.1.4",
+        "remark-directive": "^4.0.0",
+        "remark-frontmatter": "^5.0.0",
+        "remark-gfm": "^4.0.1",
+        "remark-lint": "^10.0.1",
+        "remark-lint-heading-increment": "^4.0.1",
+        "remark-math": "^6.0.0",
+        "remark-mdx": "^3.1.1",
+        "secretlint": "^13.0.5",
+        "secretlint-config-nick2bad4u": "^1.1.2",
+        "sort-package-json": "^4.0.0",
+        "stylelint": "^17.15.0",
+        "stylelint-config-inspector": "^2.3.7",
+        "stylelint-config-nick2bad4u": "^3.0.0",
+        "stylelint-define-config": "^17.15.0",
+        "tsdoc-config-nick2bad4u": "^1.0.6",
+        "type-fest": "^5.9.0",
+        "typedoc": "^0.28.20",
+        "typedoc-config-nick2bad4u": "^2.1.0",
+        "typescript": "^6.0.3",
+        "unified": "^11.0.5",
+        "vfile": "^6.0.3",
+        "vite": "^8.2.2",
+        "vitest": "^4.1.11",
+        "vitest-config-nick2bad4u": "^1.0.0",
+        "yamllint-config-nick2bad4u": "^1.1.1",
+        "yamllint-js": "^0.2.4"
+    },
+    "peerDependencies": {
+        "unified": "^11.0.0"
+    },
+    "peerDependenciesMeta": {
+        "unified": {
+            "optional": false
+        }
+    },
+    "packageManager": "npm@12.0.2",
+    "engines": {
+        "node": ">=22.0.0"
+    },
+    "devEngines": {
+        "runtime": {
+            "name": "node",
+            "version": "^22.22.3 || ^24.16.0 || >=26.3.0",
+            "onFail": "error"
+        },
+        "packageManager": {
+            "name": "npm",
+            "version": "12.0.2",
+            "onFail": "error"
+        }
+    },
+    "publishConfig": {
+        "provenance": true
+    },
+    "allowScripts": {
+        "unrs-resolver@1.12.2": true,
+        "fsevents": false,
+        "esbuild@0.28.2": true,
+        "core-js": false
+    }
+}
