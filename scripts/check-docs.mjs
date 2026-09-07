@@ -35,15 +35,27 @@ for (const icon of [
     "favicon.png",
 ])
     await access(root + "remark-inspector/remark/" + icon);
-for (const kind of ["eslint", "remark"]) {
+for (const kind of [
+    "eslint",
+    "stylelint",
+    "remark",
+]) {
     const assets = root + kind + "-inspector/_nuxt/";
+    for (const route of [
+        "configs",
+        "files",
+        "rules",
+    ])
+        await access(root + kind + "-inspector/" + route + ".html");
     for (const file of await readdir(assets)) {
         if (!file.endsWith(".js")) continue;
         const source = await readFile(assets + file, "utf8");
-        if (/href:[`"']\/(?:favicon\.svg|remark\/)/u.test(source))
+        if (/href:[`"']\/(?:favicon\.svg|remark\/|stylelint\/)/u.test(source))
             throw new Error(
                 `Inspector icon URL ignores the Pages base: ${kind}/${file}`
             );
+        for (const match of source.matchAll(/\bpath:(["'`])\/([a-z-]+)\1/gu))
+            await access(root + kind + "-inspector/" + match[2] + ".html");
     }
 }
 const inspector = root + "stylelint-inspector/";
@@ -53,12 +65,6 @@ for (const icon of [
     "stylelint/stylelint-icon-white-512.png",
 ])
     await access(inspector + icon);
-for (const file of await readdir(inspector + "_nuxt/")) {
-    if (!file.endsWith(".js")) continue;
-    const source = await readFile(inspector + "_nuxt/" + file, "utf8");
-    if (/href:[`"']\/(?:favicon\.svg|stylelint\/)/u.test(source))
-        throw new Error(`Inspector icon URL ignores the Pages base: ${file}`);
-}
 if (
     !homepage.includes("Remark File Progress") ||
     homepage.includes("stylelint-plugin-font")
