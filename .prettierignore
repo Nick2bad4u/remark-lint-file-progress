@@ -9,6 +9,7 @@ docs/docusaurus/.docusaurus
 docs/docusaurus/site-docs/developer/api
 docs/docusaurus/static/*-inspector
 .playwright-cli/
+output/playwright/
 reports/
 .lychee.report.md
 .lycheecache

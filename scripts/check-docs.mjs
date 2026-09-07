@@ -29,6 +29,12 @@ for (const { name, group } of [
     await access(root + `demos/${group}/${name}.gif`);
 }
 const homepage = await readFile(root + "index.html", "utf8");
+for (const icon of [
+    "favicon.svg",
+    "logo-square.svg",
+    "favicon.png",
+])
+    await access(root + "remark-inspector/remark/" + icon);
 const inspector = root + "stylelint-inspector/";
 for (const icon of [
     "favicon.svg",

@@ -14,6 +14,7 @@ docs/docusaurus/static/eslint-inspector/
 docs/docusaurus/static/stylelint-inspector/
 .stylelintcache
 .playwright-cli/
+output/playwright/
 reports/
 .lychee.report.md
 .lycheecache

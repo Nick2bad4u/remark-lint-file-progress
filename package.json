@@ -135,7 +135,7 @@
     "scripts": {
         "build": "node --experimental-config-file=node.config.json scripts/build.mjs",
         "build:eslint-inspector": "eslint-config-inspector build --outDir docs/docusaurus/static/eslint-inspector --base /remark-lint-file-progress/eslint-inspector/",
-        "build:remark-inspector": "remark-config-inspector build --outDir docs/docusaurus/static/remark-inspector --base /remark-lint-file-progress/remark-inspector/",
+        "build:remark-inspector": "remark-config-inspector build --outDir docs/docusaurus/static/remark-inspector --base /remark-lint-file-progress/remark-inspector/ && node scripts/finalize-remark-inspector.mjs",
         "build:stylelint-inspector": "stylelint-config-inspector build --outDir docs/docusaurus/static/stylelint-inspector --base /remark-lint-file-progress/stylelint-inspector/",
         "changelog:generate": "git cliff --config node_modules/gitcliff-config-nick2bad4u/cliff.toml --github-repo Nick2bad4u/remark-lint-file-progress --output CHANGELOG.md",
         "changelog:preview": "git cliff --config node_modules/gitcliff-config-nick2bad4u/cliff.toml --unreleased",

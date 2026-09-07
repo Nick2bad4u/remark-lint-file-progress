@@ -7,6 +7,7 @@ const config = [
             "coverage/**",
             ".temp/**",
             ".playwright-cli/**",
+            "output/playwright/**",
             "reports/**",
             ".lychee.report.md",
             ".lycheecache",

@@ -1,9 +1,18 @@
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { once } from "node:events";
+import {
+    mkdtempSync,
+    readFileSync,
+    realpathSync,
+    rmSync,
+    writeFileSync,
+} from "node:fs";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import * as path from "node:path";
+import { text } from "node:stream/consumers";
 import { pathToFileURL } from "node:url";
+import { Worker } from "node:worker_threads";
 import { afterEach, describe, expect, it } from "vitest";
 
 type Environment = Record<string, string | undefined>;
@@ -16,6 +25,8 @@ const headingRule = pathToFileURL(
 const remarkEntry = pathToFileURL(require.resolve("remark")).href;
 const cliEntry = path.resolve("node_modules/remark-cli/cli.js");
 const folders: string[] = [];
+// Canonical paths keep /var and /private/var aligned in macOS fixtures.
+const fixtureRoot = realpathSync(tmpdir());
 
 function environment(overrides: Readonly<Environment> = {}): Environment {
     // eslint-disable-next-line n/no-process-env -- Child-process output must exclude inherited debugger instrumentation.
@@ -57,7 +68,7 @@ function fixture(
     options: Record<string, unknown> = {},
     syntax?: string
 ): string {
-    const folder = mkdtempSync(path.join(tmpdir(), "remark-progress-cli-"));
+    const folder = mkdtempSync(path.join(fixtureRoot, "remark-progress-cli-"));
     folders.push(folder);
     writeFileSync(path.join(folder, "a.md"), "# First\n\n### Skipped\n");
     writeFileSync(path.join(folder, "b.md"), "# Second\n");
@@ -109,7 +120,7 @@ describe("remark integration", () => {
     afterEach(() => {
         for (const folder of folders.splice(0)) {
             if (
-                path.dirname(folder) !== path.resolve(tmpdir()) ||
+                path.dirname(folder) !== fixtureRoot ||
                 !path.basename(folder).startsWith("remark-progress-cli-")
             )
                 throw new Error("Unsafe fixture cleanup path");
@@ -376,15 +387,30 @@ describe("remark integration", () => {
 
         it.each(["stderr", "stdout"] as const)(
             "captures worker progress and final output on %s",
-            (stream) => {
+            async (stream) => {
                 expect.hasAssertions();
 
-                const source = `(async()=>{const { remark }=await import(${JSON.stringify(remarkEntry)});const {default:plugin}=await import(${JSON.stringify(entry)});await remark().use(plugin,{outputStream:${JSON.stringify(stream)},detailedSuccess:true}).process({path:'worker.md',value:'# Title'});})();`;
-                const result = evaluate(
-                    `import {Worker} from 'node:worker_threads';const worker=new Worker(${JSON.stringify(source)},{eval:true,stdout:true,stderr:true});worker.stdout.pipe(process.stdout);worker.stderr.pipe(process.stderr);await new Promise((resolve,reject)=>{worker.once('exit',code=>code===0?resolve():reject(new Error(String(code))));worker.once('error',reject);});`
+                const worker = new Worker(
+                    new URL("fixtures/progress-worker.mjs", import.meta.url),
+                    {
+                        env: environment(),
+                        stderr: true,
+                        stdout: true,
+                        workerData: stream,
+                    }
                 );
+                const [
+                    exit,
+                    stdout,
+                    stderr,
+                ] = await Promise.all([
+                    once(worker, "exit"),
+                    text(worker.stdout),
+                    text(worker.stderr),
+                ]);
+                const result = { stderr, stdout };
 
-                expect(result.status).toBe(0);
+                expect(exit[0]).toBe(0);
                 expect(result[stream]).toContain("linting worker.md");
                 expect(
                     result[stream].match(/Files observed: 1/gv)
