@@ -51,3 +51,5 @@ The Windows console writer was retained after checking [Node 22's libuv implemen
 Version 0.1.0 is prepared without npm publication. CI retains Linux, Windows, and macOS coverage, strict quality and package checks, CodeQL, dependency/security scans, Codecov OIDC uploads, and Sonar quality analysis. Release automation validates a committed version and exact tarball before a separately authorized publication.
 
 Verification reports, workflow links, and the final main SHA accompany task completion. An unavailable integration is a named setup blocker, never a passing analysis. Shared remark configuration adoption is deferred until a later authorized publication.
+
+Public-site verification found that inspector navigation worked in the browser but refreshing a nested route returned GitHub Pages' 404 page. The documentation build now supplies an HTML entrypoint for every static inspector route, and the documentation gate checks those entrypoints alongside their startup icons.
