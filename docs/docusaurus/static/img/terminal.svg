@@ -1,0 +1,111 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="940"
+    height="540"
+    viewBox="0 0 940 540"
+    role="img"
+    aria-label="Colored remark progress with six observed files and a process summary"
+>
+    <rect width="940" height="540" rx="14" fill="#0d1117" />
+    <circle cx="28" cy="25" r="6" fill="#ff7b72" />
+    <circle cx="48" cy="25" r="6" fill="#e3b341" />
+    <circle cx="68" cy="25" r="6" fill="#7ee787" />
+    <g font-family="Consolas,monospace" font-size="16">
+        <text x="26" y="70">
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#79c0ff">Remark File Progress</tspan>
+            <tspan fill="#e6edf3">/ recommended-detailed</tspan>
+        </text>
+        <text x="26" y="93">
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#8b949e">stderr | interactive terminal</tspan>
+            <tspan fill="#e6edf3"></tspan>
+        </text>
+        <text x="26" y="116"><tspan fill="#e6edf3"></tspan></text>
+        <text x="26" y="139">
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#79c0ff">$</tspan>
+            <tspan fill="#e6edf3">npx remark 'src/**/*.md'</tspan>
+        </text>
+        <text x="26" y="162"><tspan fill="#e6edf3"></tspan></text>
+        <text x="26" y="185">
+            <tspan fill="#e6edf3">⠋</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#79c0ff">RFP</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#e6edf3">• linting</tspan>
+            <tspan fill="#7ee787">src/base.md</tspan>
+            <tspan fill="#e6edf3"></tspan>
+        </text>
+        <text x="26" y="208">
+            <tspan fill="#e6edf3">⠙</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#79c0ff">RFP</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#e6edf3">• linting</tspan>
+            <tspan fill="#7ee787">src/layout.md</tspan>
+            <tspan fill="#e6edf3"></tspan>
+        </text>
+        <text x="26" y="231">
+            <tspan fill="#e6edf3">⠹</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#79c0ff">RFP</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#e6edf3">• linting</tspan>
+            <tspan fill="#7ee787">src/components/card.md</tspan>
+            <tspan fill="#e6edf3"></tspan>
+        </text>
+        <text x="26" y="254">
+            <tspan fill="#e6edf3">⠸</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#79c0ff">RFP</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#e6edf3">• linting</tspan>
+            <tspan fill="#7ee787">src/components/button.md</tspan>
+            <tspan fill="#e6edf3"></tspan>
+        </text>
+        <text x="26" y="277">
+            <tspan fill="#e6edf3">⠼</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#79c0ff">RFP</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#e6edf3">• linting</tspan>
+            <tspan fill="#7ee787">src/theme.md</tspan>
+            <tspan fill="#e6edf3"></tspan>
+        </text>
+        <text x="26" y="300">
+            <tspan fill="#e6edf3">⠴</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#79c0ff">RFP</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#e6edf3">• linting</tspan>
+            <tspan fill="#7ee787">src/utilities.md</tspan>
+            <tspan fill="#e6edf3"></tspan>
+        </text>
+        <text x="26" y="323">
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#79c0ff">RFP:</tspan>
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#7ee787">✔ Lint complete.</tspan>
+            <tspan fill="#e6edf3"></tspan>
+        </text>
+        <text x="26" y="346">
+            <tspan fill="#e6edf3">Files observed: 6</tspan>
+        </text>
+        <text x="26" y="369">
+            <tspan fill="#e6edf3">Elapsed since first file: 2.60s</tspan>
+        </text>
+        <text x="26" y="392">
+            <tspan fill="#e6edf3">Observed throughput: 2.31 files/s</tspan>
+        </text>
+        <text x="26" y="415">
+            <tspan fill="#e6edf3">Process exit code: 0</tspan>
+        </text>
+        <text x="26" y="438"><tspan fill="#e6edf3"></tspan></text>
+        <text x="26" y="461">
+            <tspan fill="#e6edf3"></tspan>
+            <tspan fill="#79c0ff">$</tspan>
+            <tspan fill="#e6edf3"></tspan>
+        </text>
+    </g>
+</svg>

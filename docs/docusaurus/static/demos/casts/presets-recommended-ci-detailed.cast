@@ -1,0 +1,7 @@
+{"version":2,"width":94,"height":22,"timestamp":1744070400,"env":{"TERM":"xterm-256color","SHELL":"/bin/sh"}}
+[0,"o","\u001b[?25l"]
+[0,"o","\u001b[1;36mRemark File Progress\u001b[0m  /  recommended-ci-detailed\r\n"]
+[0,"o","\u001b[90mstderr | interactive terminal | CI=true\u001b[0m\r\n\r\n"]
+[0,"o","\u001b[36m$\u001b[0m npx remark 'src/**/*.md'\r\n\r\n"]
+[2.98,"o","\u001b[36mRFP:\u001b[39m \u001b[32m✔ Lint complete.\u001b[39m\r\n  Files observed: 6\r\n  Elapsed since first file: 2.60s\r\n  Observed throughput: 2.31 files/s\r\n  Process exit code: 0\r\n"]
+[3.38,"o","\r\n\u001b[36m$\u001b[0m "]

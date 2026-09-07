@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": false,
+        "exactOptionalPropertyTypes": true,
+        "isolatedModules": true,
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "noEmit": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitOverride": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "target": "ES2024",
+        "types": [
+            "node"
+        ],
+        "useUnknownInCatchVariables": true,
+        "verbatimModuleSyntax": true
+    },
+    "exclude": [
+        "node_modules",
+        "dist",
+        "coverage",
+        ".temp",
+        "docs/docusaurus/build"
+    ],
+    "include": [
+        "src/**/*.ts",
+        "test/**/*.ts",
+        "scripts/*.mjs",
+        "*.mjs",
+        "vitest.config.ts",
+        ".remarkrc.mjs"
+    ]
+}

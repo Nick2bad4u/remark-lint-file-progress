@@ -1,0 +1,13 @@
+codecov:
+    branch: "main"
+    require_ci_to_pass: true
+comment:
+    require_changes: true
+coverage:
+    status:
+        patch:
+            default:
+                target: "90%"
+        project:
+            default:
+                target: "90%"

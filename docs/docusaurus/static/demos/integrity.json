@@ -1,0 +1,126 @@
+{
+    "options-detailedSuccess": {
+        "cast": "0eb46d0777d390bb579987a2b10aafd9997cd08bade5804868eee9709bb6173b",
+        "gif": "049ef24206b658c7824e56582f1d9069938ddfa94da46db3ed222186d3470da9"
+    },
+    "options-failureMark": {
+        "cast": "ca3b72c10e4b0176e348df643de3903c80a60dd55b8169312fefef82e3a2808d",
+        "gif": "fc9a9e38826d7e9de52f8be7f17167c2a76bec1c21a2578576cf57e971b903b8"
+    },
+    "options-fileNameOnNewLine": {
+        "cast": "85cf574201954c8fe5775d7f28e5e19e5aaf037ab4eae62b8c8240941e59f9d9",
+        "gif": "398b793f1f0480965ec3e55939b9202b684b77cb656d356a913eaadef305ddf9"
+    },
+    "options-hide": {
+        "cast": "a179c0ed62cfba5a4b42aeb30324eecd63df0df0252d771b780ae5938d9b3c92",
+        "gif": "df41fcc600fcf6f49b1e0580a82672c76f5ca3c644cd7cbab8dc0eba18214457"
+    },
+    "options-hideDirectoryNames": {
+        "cast": "c0205bb09f9a0a455b1b14f72b4826dda1a77fd55c2cca0d44c3f721317c7a7a",
+        "gif": "bc9245f610e79baf52e89a9bf5d30fd4bf3f24efe0380fb77749cc99d45af11b"
+    },
+    "options-hideFileName": {
+        "cast": "22485ca7a4d5ffe561dba4610f8b6386f7ba1d8f3529fa6a5641a5e5d2bfe4dd",
+        "gif": "0967f29400f7640c19550f058aa0a808139f9f12d6c9b76af4a68e3d1e22896f"
+    },
+    "options-hidePrefix": {
+        "cast": "947f6802efe253bd05c600708fab98e33a7ee18de85a819e190b20ea9c15cb6f",
+        "gif": "926cb78e53375ab6943a253f6c8137cb40d10b10d4df8f01395e001ec6856658"
+    },
+    "options-minFilesBeforeShow": {
+        "cast": "a6344e5ae1bb7b775a0327c6288ce53a78aa9109932fd4deeba270cc76cd84f3",
+        "gif": "aebe916e91db594db761afdc18cb4f0df1c3a74525709c798942e98ce403f4ac"
+    },
+    "options-mode-compact": {
+        "cast": "beea11965a473a31b118f3b65a471a7e8438fab1fa1055f00b6bd1780dd9e909",
+        "gif": "9ef01665a67dc1a3f8555ae61f09bc447b92336e458af2e8c75a5f5a22c3f56b"
+    },
+    "options-mode-summary-only": {
+        "cast": "c2371830feee92633ddd925c542087109837f5bf284f7bf176e51c59c1a6e621",
+        "gif": "8e43f9b0b8c5e98bc8d0c277d5560c1369fc501775eddf180ff458110cc3d153"
+    },
+    "options-non-tty": {
+        "cast": "02959f6e3eee539a28db5e7cfe7e8f797884ff4b03a346f1124197711dedf1b2",
+        "gif": "925049407d1c0e9b23ecd20e0c55c0ba46f9ad9338b6c193325bac0616ec72c3"
+    },
+    "options-outputStream": {
+        "cast": "9252b16092943e1fc2c1df2395b741b0af784cb2c0bc9f6cde22ae176e3388c3",
+        "gif": "9ea4c0c69fb257fc01e89dc8b112600d7fa80728c0ce4db40f6e5cc3ecee60e3"
+    },
+    "options-pathFormat": {
+        "cast": "862aac2307d0737a6b3c488eceb5a0d290ae3254079b9565b32564b1130a2672",
+        "gif": "a0b9948786ca509f5836ab1bf965b96ba0ef00f2a56b0db30beececf28200b0f"
+    },
+    "options-prefixMark": {
+        "cast": "250514d6097dbe247c6158d6ea444ac9db6fdf7b27231ae87277b75161a5dc61",
+        "gif": "e3bd3742f5c364ab6ecb3968ee59096aa35e23db4188b8c908fce78620f64185"
+    },
+    "options-showSummaryWhenHidden": {
+        "cast": "b5c24dffb48c3692078fce11d29fe64868362b71523af6fb1a1289719539b68e",
+        "gif": "aa7eb684ff775ba9d4cb1dd3a47ea719ab1ca5b37e4ef12cf34e6c400f1965af"
+    },
+    "options-spinnerStyle-arc": {
+        "cast": "25c3b010a04afff1a99fedda61e9b187c666f925d3cc000ba5fafa2e317ce459",
+        "gif": "b6da42c8c7f7b39f30d93db854d98bcff925091d6c33f681089f618c9bc293fe"
+    },
+    "options-spinnerStyle-bounce": {
+        "cast": "18d16da71e5f8631233c0315bf54a18ae9131685a23675d487ff206282a2c289",
+        "gif": "a4dc0d1e29a813060c4bee7aa74dd21f62e62fe9b2668bd071096de9d237de47"
+    },
+    "options-spinnerStyle-clock": {
+        "cast": "c32f259910b8bed476c51206a487270583621ee5134aa08f7aea45113130a9b2",
+        "gif": "06cdb55215c21077aa58a4ce3dd93ff0d59d57ee6adea18195f29c9880d019c7"
+    },
+    "options-spinnerStyle-dots": {
+        "cast": "3b506cfbbe3e17f30e798fd11f197a047c9d29f9edb700bcf68b9dd928ca10d5",
+        "gif": "5cfa7d44760f6b82580a75d653051b31f78cd87a8d5aa9f5812ec43598075386"
+    },
+    "options-spinnerStyle-line": {
+        "cast": "5cc2a81d2d291e276b99a71936c6cc623cef89e4579cbcf59adcf12951a12efb",
+        "gif": "0a04b261dddd0c770e74c0b9cba7ed499cd80c51bb3acf86f8f2bd286f98f39b"
+    },
+    "options-successMark": {
+        "cast": "0eac1d033ce9df88980356fd5b0a9a13a07e5eb8b901bea760dff6a739552f84",
+        "gif": "71526909b5828fef876049576f521e4e7da3c50edad8b7a3cc042c56920ace5b"
+    },
+    "options-successMessage": {
+        "cast": "19b47a29bb5209a8c4085fe7ef44ccd989413d13cf8996b388afba782d180907",
+        "gif": "05f27a6fdf2302a6eb4d8ca83b002974268542282868e233e6718900bd9a9ca4"
+    },
+    "options-throttleMs": {
+        "cast": "06488ea49e666ac0bb8769044e88ee5afa1b6344a2d498e71ea83a8f86415f91",
+        "gif": "ad5fa5015aa5a47168b414296f7be04e33500c0fe817577bed9aeee47ba2c306"
+    },
+    "options-ttyOnly": {
+        "cast": "e3357676c7bcf10ab1fe1a4240aa7ecac89644a9a38425e3626e38758c453514",
+        "gif": "6e1aa185a5944f259c3894318bf65a3d43ef310a65f508c583f7c9bb78187707"
+    },
+    "presets-recommended": {
+        "cast": "8ea210e4bd219cd3675691a8443965690298d2e3ae58ff1245e4c0012e802838",
+        "gif": "94ad51787ce97e8b4db04639a205a5d129313aec5685e49c2139ba4ad671e7ef"
+    },
+    "presets-recommended-ci": {
+        "cast": "60acf8db8f2cc6c6c77b85c8af22dc00e289f565403059c16d5454b63430dae5",
+        "gif": "8f27b598c7bb870a6f776f301e2de066ccdbfa4c580252ce67048bc314c00eb0"
+    },
+    "presets-recommended-ci-detailed": {
+        "cast": "c1d9d113ba28e305aaf1c54882531d89775a73f1c8fd9ac8c066e154aadd9130",
+        "gif": "2dc2efae98f92dd0c7d786bf3cbb12ca256fb2ad0d7d6b30d6d337396bc7de78"
+    },
+    "presets-recommended-compact": {
+        "cast": "cd8173ed0aa029463d096df39d21c9f5df248318788c4fb1369e7ab7421a5df9",
+        "gif": "5fb4dad1bcfd722279fe8cfcbeb0c2317e4c7b693f572bb5182d1effe62ffa4d"
+    },
+    "presets-recommended-detailed": {
+        "cast": "dbcb63c4a25ed05dccffb2b77f707a7ebf57a6876e680438861e07405ca033ea",
+        "gif": "b9af2e0ab68b57e71642ae3bd8d6ae987ae9c6100c69cdcb8b91cc6ccffbde7a"
+    },
+    "presets-recommended-summary-only": {
+        "cast": "9366003fa3792c2144cdf24ceeb3d3c06b5f81db23d9bb6689ac22d5e8fe3c5e",
+        "gif": "bee0cda4de37d896f3f29d6486fff0cb69f66c2c126ec69611e7aee2ca2269b7"
+    },
+    "presets-recommended-tty": {
+        "cast": "60c30c95eddc55c26cd453aac940a8cb38f331fa504018397c78e429fa36b7a9",
+        "gif": "9efb38a59265160144e4e005ec3f96c89f2cead29cd83845fa5d675acbc290dc"
+    }
+}

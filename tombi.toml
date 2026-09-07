@@ -1,0 +1,9 @@
+#:schema https://www.schemastore.org/tombi.json
+
+# Keep TOML formatting identical on developer machines and clean CI runners.
+[format.rules]
+    indent-table-key-value-pairs    = true
+    indent-width                    = 4
+    key-value-equals-sign-alignment = true
+    line-ending                     = "lf"
+    string-quote-style              = "double"

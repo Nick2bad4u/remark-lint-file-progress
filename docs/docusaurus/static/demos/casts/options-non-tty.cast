@@ -1,0 +1,13 @@
+{"version":2,"width":94,"height":22,"timestamp":1744070400,"env":{"TERM":"xterm-256color","SHELL":"/bin/sh"}}
+[0,"o","\u001b[?25l"]
+[0,"o","\u001b[1;36mRemark File Progress\u001b[0m  /  non-tty\r\n"]
+[0,"o","\u001b[90mstderr | redirected output\u001b[0m\r\n\r\n"]
+[0,"o","\u001b[36m$\u001b[0m npx remark 'src/**/*.md'\r\n\r\n"]
+[0.38,"o","RFP • linting src/base.md\r\n"]
+[0.76,"o","RFP • linting src/layout.md\r\n"]
+[1.14,"o","RFP • linting src/components/card.md\r\n"]
+[1.52,"o","RFP • linting src/components/button.md\r\n"]
+[1.9,"o","RFP • linting src/theme.md\r\n"]
+[2.28,"o","RFP • linting src/utilities.md\r\n"]
+[2.98,"o","RFP: ✔ Lint complete.\r\n"]
+[3.38,"o","\r\n\u001b[36m$\u001b[0m "]

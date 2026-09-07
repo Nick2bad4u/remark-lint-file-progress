@@ -1,0 +1,8 @@
+node_modules/
+dist/
+coverage/
+.temp/
+docs/docusaurus/build/
+docs/docusaurus/.docusaurus/
+docs/docusaurus/site-docs/developer/api/
+docs/docusaurus/static/

@@ -1,0 +1,164 @@
+name: "Release"
+on:
+    push:
+        tags: ["v*"]
+    workflow_dispatch:
+        inputs:
+            version:
+                description: "Version already committed to main (x.y.z)"
+                type: "string"
+                required: true
+permissions:
+    contents: "read"
+concurrency:
+    group: "release-${{ github.repository }}"
+    cancel-in-progress: "${{ false }}"
+jobs:
+    verify:
+        name: "Verify package"
+        runs-on: "ubuntu-latest"
+        timeout-minutes: 60
+        steps:
+            - uses: "step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1" # v2.21.1
+              with:
+                  egress-policy: "audit"
+              name: "Run step-security/harden-runner"
+            - uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1" # v7.0.1
+              with:
+                  fetch-depth: 0
+              name: "Run actions/checkout"
+            - uses: "actions/setup-node@820762786026740c76f36085b0efc47a31fe5020" # v7.0.0
+              with:
+                  node-version-file: ".node-version"
+                  package-manager-cache: false
+              name: "Run actions/setup-node"
+            - name: "Install the declared npm before restoring its cache"
+              run: "npm install --global --ignore-scripts npm@12.0.2"
+              working-directory: "${{ runner.temp }}"
+              shell: "bash"
+              timeout-minutes: 10
+            - name: "Restore npm cache with npm 12"
+              uses: "actions/setup-node@820762786026740c76f36085b0efc47a31fe5020" # v7.0.0
+              with:
+                  node-version-file: ".node-version"
+                  cache: "npm"
+            - run: |
+                  npm ci
+                  go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+                  echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+              name: "Install dependencies and actionlint"
+              shell: "bash"
+              timeout-minutes: 40
+            - name: "Verify release identity and registry availability"
+              run: "node scripts/release-guard.mjs"
+              env:
+                  RELEASE_VERSION: "${{ inputs.version }}"
+              shell: "bash"
+              timeout-minutes: 40
+            - run: "npm run release:verify"
+              name: "Run npm run release:verify"
+              shell: "bash"
+              timeout-minutes: 40
+            - run: "mkdir -p release && npm pack --ignore-scripts --pack-destination release"
+              name: "Run mkdir -p release && npm pack --ignore-scripts --pack-destination release"
+              shell: "bash"
+              timeout-minutes: 40
+            - name: "Validate local tarball publication without uploading"
+              # The verification job does not request a signing identity.
+              run: "npm run release:check-tarball"
+              shell: "bash"
+              timeout-minutes: 5
+            - uses: "actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a" # v7.0.1
+              with:
+                  name: "verified-package"
+                  path: "release/*.tgz"
+                  retention-days: 7
+              name: "Run actions/upload-artifact"
+    publish:
+        name: "Publish"
+        needs: "verify"
+        runs-on: "ubuntu-latest"
+        environment: "npm"
+        permissions:
+            actions: "read"
+            contents: "read"
+            id-token: "write"
+        steps:
+            - name: "Harden publishing runner"
+              uses: "step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1" # v2.21.1
+              with:
+                  egress-policy: "audit"
+            - uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1" # v7.0.1
+              name: "Run actions/checkout"
+            - uses: "actions/setup-node@820762786026740c76f36085b0efc47a31fe5020" # v7.0.0
+              with:
+                  node-version-file: ".node-version"
+                  registry-url: "https://registry.npmjs.org"
+                  package-manager-cache: false
+              name: "Run actions/setup-node"
+            - name: "Install the declared npm before restoring its cache"
+              run: "npm install --global --ignore-scripts npm@12.0.2"
+              working-directory: "${{ runner.temp }}"
+              shell: "bash"
+              timeout-minutes: 10
+            - name: "Restore npm cache with npm 12"
+              uses: "actions/setup-node@820762786026740c76f36085b0efc47a31fe5020" # v7.0.0
+              with:
+                  node-version-file: ".node-version"
+                  cache: "npm"
+            - name: "Download verified package"
+              env:
+                  GH_TOKEN: "${{ github.token }}"
+              run: "gh run download ${{ github.run_id }} --name verified-package --dir release"
+              shell: "bash"
+              timeout-minutes: 40
+            - name: "Publish verified tarball with provenance"
+              run: "npm publish ./release/*.tgz --access public --provenance --ignore-scripts"
+              shell: "bash"
+              timeout-minutes: 40
+        timeout-minutes: 60
+    github-release:
+        name: "Verify npm and create GitHub release"
+        needs: "publish"
+        runs-on: "ubuntu-latest"
+        timeout-minutes: 15
+        permissions:
+            actions: "read"
+            contents: "write"
+        steps:
+            - name: "Harden release runner"
+              uses: "step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1" # v2.21.1
+              with:
+                  egress-policy: "audit"
+            - name: "Check out the published commit"
+              uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1" # v7.0.1
+            - name: "Select the declared Node version"
+              uses: "actions/setup-node@820762786026740c76f36085b0efc47a31fe5020" # v7.0.0
+              with:
+                  node-version-file: ".node-version"
+                  package-manager-cache: false
+            - name: "Download the verified artifact"
+              env:
+                  GH_TOKEN: "${{ github.token }}"
+              run: "gh run download ${{ github.run_id }} --name verified-package --dir release"
+              shell: "bash"
+              timeout-minutes: 5
+            - name: "Verify npm integrity and provenance"
+              run: "node scripts/verify-published.mjs"
+              shell: "bash"
+              timeout-minutes: 5
+            - name: "Create or finish the GitHub release"
+              env:
+                  GH_TOKEN: "${{ github.token }}"
+              run: |
+                  version=$(node -p "require('./package.json').version")
+                  if gh release view "v$version" >/dev/null 2>&1; then
+                      gh release upload "v$version" release/*.tgz --clobber
+                      # An interrupted asset upload can leave a draft behind.
+                      gh release edit "v$version" --draft=false --target "$GITHUB_SHA" --notes-file CHANGELOG.md --title "v$version"
+                  else
+                      gh release create "v$version" release/*.tgz --target "$GITHUB_SHA" --notes-file CHANGELOG.md --title "v$version"
+                  fi
+              shell: "bash"
+              timeout-minutes: 5
+run-name: "Release • ${{ github.ref_name }}"

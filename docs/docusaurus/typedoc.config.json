@@ -1,0 +1,12 @@
+{
+    "$schema": "https://typedoc.org/schema.json",
+    "entryPointStrategy": "resolve",
+    "entryPoints": ["../../src/plugin.ts"],
+    "extends": ["typedoc-config-nick2bad4u/typedoc.json"],
+    "gitRevision": "main",
+    "hostedBaseUrl": "https://nick2bad4u.github.io/remark-lint-file-progress/",
+    "name": "Remark File Progress API",
+    "out": "site-docs/developer/api",
+    "readme": "none",
+    "tsconfig": "../../tsconfig.build.json"
+}

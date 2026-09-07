@@ -1,0 +1,8 @@
+{
+    "$schema": "https://nodejs.org/docs/latest/node-config-schema.json",
+    "nodeOptions": {
+        "diagnostic-dir": "./.temp/diagnostics",
+        "enable-source-maps": true,
+        "extra-info-on-fatal-exception": true
+    }
+}
