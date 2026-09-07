@@ -35,6 +35,17 @@ for (const icon of [
     "favicon.png",
 ])
     await access(root + "remark-inspector/remark/" + icon);
+for (const kind of ["eslint", "remark"]) {
+    const assets = root + kind + "-inspector/_nuxt/";
+    for (const file of await readdir(assets)) {
+        if (!file.endsWith(".js")) continue;
+        const source = await readFile(assets + file, "utf8");
+        if (/href:[`"']\/(?:favicon\.svg|remark\/)/u.test(source))
+            throw new Error(
+                `Inspector icon URL ignores the Pages base: ${kind}/${file}`
+            );
+    }
+}
 const inspector = root + "stylelint-inspector/";
 for (const icon of [
     "favicon.svg",

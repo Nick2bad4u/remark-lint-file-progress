@@ -1,6 +1,8 @@
 import { spawnSync } from "node:child_process";
 import { once } from "node:events";
 import {
+    copyFileSync,
+    mkdirSync,
     mkdtempSync,
     readFileSync,
     realpathSync,
@@ -14,6 +16,8 @@ import { text } from "node:stream/consumers";
 import { pathToFileURL } from "node:url";
 import { Worker } from "node:worker_threads";
 import { afterEach, describe, expect, it } from "vitest";
+
+import { meta } from "../src/plugin.js";
 
 type Environment = Record<string, string | undefined>;
 const require = createRequire(import.meta.url);
@@ -352,6 +356,34 @@ describe("remark integration", () => {
     });
 
     describe("process lifecycle", () => {
+        it("keeps metadata and behavior independent across installed versions", () => {
+            expect.hasAssertions();
+
+            const folder = fixture();
+            const alternate = path.join(folder, "alternate.cjs");
+            const colors = path.join(folder, "node_modules", "picocolors");
+            mkdirSync(colors, { recursive: true });
+            copyFileSync(
+                require.resolve("picocolors"),
+                path.join(colors, "index.js")
+            );
+            const source = readFileSync(commonEntry, "utf8");
+            const alternateVersion = `${meta.version}-fixture`;
+            writeFileSync(
+                alternate,
+                source.replaceAll(JSON.stringify(meta.version), () =>
+                    JSON.stringify(alternateVersion)
+                )
+            );
+            const result = evaluate(
+                `import assert from 'node:assert/strict';import { createRequire } from 'node:module';const require=createRequire(import.meta.url);const alternate=require(${JSON.stringify(alternate)});const current=require(${JSON.stringify(commonEntry)});assert.equal(alternate.meta.version,${JSON.stringify(alternateVersion)});assert.equal(current.meta.version,${JSON.stringify(meta.version)});assert.notEqual(alternate,current);`
+            );
+
+            expect(result.status).toBe(0);
+            expect(result.stdout).toBe("");
+            expect(result.stderr).toBe("");
+        });
+
         it("keeps imports, disabled processors, and configuration quiet", () => {
             expect.hasAssertions();
 

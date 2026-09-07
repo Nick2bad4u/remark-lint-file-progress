@@ -106,7 +106,9 @@ export function validateSettings(options: unknown): NormalizedProgressSettings {
             "remark-lint-file-progress: expected a display settings object, true, false, or null"
         );
 
-    for (const [name, value] of objectEntries(options)) {
+    // Accessors are evaluated once so normalization cannot read unvalidated values.
+    const snapshot = { ...options };
+    for (const [name, value] of objectEntries(snapshot)) {
         const key = objectKeys(possibleOptions).find(
             (candidate) => candidate === name
         );
@@ -123,7 +125,7 @@ export function validateSettings(options: unknown): NormalizedProgressSettings {
                 `remark-lint-file-progress: invalid option ${name}`
             );
     }
-    return normalizeSettings(options);
+    return normalizeSettings(snapshot);
 }
 
 /** Accept ordinary option records and records without a prototype. */

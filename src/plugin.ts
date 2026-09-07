@@ -50,7 +50,10 @@ export type ProgressPluginOptions =
     | null
     | Readonly<ProgressSettings>;
 
-const registryKey = Symbol.for("remark-lint-file-progress.registry.v1");
+const version = "0.1.0";
+const registryKey = Symbol.for(
+    `remark-lint-file-progress.registry.v1@${version}`
+);
 const registryHost = safeCastTo<
     typeof globalThis & {
         [registryKey]?: {
@@ -97,7 +100,7 @@ function createPlugin(): FileProgressPlugin {
         meta: {
             name: "remark-lint-file-progress" as const,
             namespace: "file-progress" as const,
-            version: "0.1.0",
+            version,
         },
     });
 }

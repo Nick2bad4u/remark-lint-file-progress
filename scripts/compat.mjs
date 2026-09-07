@@ -87,6 +87,15 @@ try {
           : Object.values(packed)[0];
     assert.equal(typeof item.filename, "string");
     assert.equal(path.basename(item.filename), item.filename);
+    const packageContents = item.files.map((file) => file.path);
+    assert.ok(
+        packageContents.every((file) =>
+            /^(?:dist\/|docs\/rules\/|package\.json$|README\.md$|LICENSE$|CHANGELOG\.md$|NOTICE$)/u.test(
+                file
+            )
+        ),
+        "The artifact must contain only runtime output, declarations, and package documentation"
+    );
     const tarball = path.join(workspace, item.filename);
     const manifest = JSON.parse(await readFile("package.json", "utf8"));
     const presetNames = Object.keys(manifest.exports)
@@ -331,7 +340,21 @@ assert.match(codePage(),/437$/u);
                   ? "compat-minimum.json"
                   : "compat.json"
         ),
-        JSON.stringify({ version: manifest.version, results }, null, 2) + "\n"
+        JSON.stringify(
+            {
+                version: manifest.version,
+                artifact: {
+                    filename: item.filename,
+                    integrity: item.integrity,
+                    size: item.size,
+                    unpackedSize: item.unpackedSize,
+                    files: packageContents,
+                },
+                results,
+            },
+            null,
+            2
+        ) + "\n"
     );
 } finally {
     assert.equal(path.dirname(workspace), path.resolve(tmpdir()));

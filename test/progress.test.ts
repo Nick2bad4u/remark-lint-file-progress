@@ -23,6 +23,21 @@ import {
 import plugin, { configNames, configs, meta } from "../src/plugin.js";
 
 describe("native remark contract", () => {
+    it("snapshots accessor-backed options before validation and normalization", () => {
+        expect.hasAssertions();
+
+        let reads = 0;
+        const settings = validateSettings({
+            get outputStream() {
+                reads += 1;
+                return reads === 1 ? "stderr" : "invalid";
+            },
+        });
+
+        expect(settings.outputStream).toBe("stderr");
+        expect(reads).toBe(1);
+    });
+
     it("reuses the canonical attacher when the module is evaluated again", async () => {
         expect.hasAssertions();
 

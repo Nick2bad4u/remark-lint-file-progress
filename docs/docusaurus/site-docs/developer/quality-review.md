@@ -28,7 +28,7 @@ The initial implementation passed `npm run release:verify` on Windows with Node 
 
 | Gate                                              | Result                                                                                   |
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| Unit, process-boundary, and real remark CLI tests | 78 passed                                                                                |
+| Unit, process-boundary, and real remark CLI tests | 80 passed                                                                                |
 | Statements / lines / functions                    | 100% / 100% / 100%                                                                       |
 | Branches                                          | 96.58%                                                                                   |
 | Public API TSDoc                                  | 38 of 38 reflections, 100%                                                               |
@@ -43,6 +43,10 @@ Review corrected the unified type boundary so the package uses the consumer's un
 Compared with the Stylelint adapter, remark intentionally counts every transformer invocation instead of deduplicating PostCSS processing results. Mixed module formats share a canonical callable function, allowing unified's own registration merging to prevent duplicate transformers. These host-specific differences are tested rather than hidden behind a generic wrapper.
 
 ## Delivery boundary
+
+Review also added a single-read snapshot for accessor-backed options and isolated the registry by installed version. These prevent unvalidated second reads and an older installed version replacing a newer plugin's metadata or behavior.
+
+The Windows console writer was retained after checking [Node 22's libuv implementation](https://github.com/nodejs/node/blob/v22.0.0/deps/uv/src/win/tty.c). Its terminal write path emits text through `WriteConsoleW` before queuing the completion callback. The real CP437 probe showed complete shutdown summaries on both streams. Moving output to `beforeExit` would permit premature summaries in long-lived processors; raw descriptor writes would reintroduce the legacy-code-page regression.
 
 Version 0.1.0 is prepared without npm publication. CI retains Linux, Windows, and macOS coverage, strict quality and package checks, CodeQL, dependency/security scans, Codecov OIDC uploads, and Sonar quality analysis. Release automation validates a committed version and exact tarball before a separately authorized publication.
 

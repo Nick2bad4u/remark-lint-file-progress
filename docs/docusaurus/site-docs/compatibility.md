@@ -1,5 +1,7 @@
 # Compatibility and metric boundaries
 
+Each installed package version keeps its own registry and process summary. ESM and CommonJS imports of the same version share one plugin identity and one controller; separate installed versions cannot replace each other's metadata or behavior.
+
 ## Supported runtimes
 
 The package supports Node.js 22 and later, unified 11, VFile 6, remark 15, remark-cli 12, and remark-lint 10. It works with plain unified/remark without enabling lint rules. Its exports include ESM, directly callable CommonJS, declarations, and all seven preset subpaths.

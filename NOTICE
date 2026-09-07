@@ -8,3 +8,8 @@ Implementation baseline: https://github.com/Nick2bad4u/stylelint-plugin-file-pro
 Adapted from Stylelint File Progress 1.0.1, commit e1416513611d9e214097c6a28fdc0501dd944ddd.
 
 The MIT license text accompanying this distribution applies to adapted portions.
+
+The CommonJS entrypoint bundles MIT-licensed helpers from ts-extras.
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
+Source: https://github.com/sindresorhus/ts-extras
+The accompanying MIT permission notice also applies to these bundled helpers.

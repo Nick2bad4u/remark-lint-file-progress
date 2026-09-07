@@ -13,4 +13,4 @@ Include a minimal Markdown input, configuration, and command. Remove private pat
 
 ## Expected and actual behavior
 
-Include relevant output and whether caching, autofix, stdin, or a custom syntax was used.
+Include relevant output and whether host-level skipping, `--output` rewriting, stdin, or a custom syntax was used.
