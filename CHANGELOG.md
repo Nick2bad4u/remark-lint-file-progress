@@ -27,6 +27,8 @@
 
 ### 🛠️ Bug Fixes
 
+- [`7c546fd`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/7c546fd5f873cf3bd19e766a68a2854d20a33142 "Diff: 2 files, +39 | -303") — 🐛 [fix] Preserve exact filename spacing in the static terminal preview&nbsp;<sub><em>(2&nbsp;files,&nbsp;+39,&nbsp;-303)</em></sub>
+
 - [`6399cb2`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/6399cb2f73f10a15cdae8e339390ea3f3fe2b315 "Diff: 75 files, +896 | -332") — 🐛 [fix] Match progress presentation to the ESLint plugin&nbsp;<sub><em>(75&nbsp;files,&nbsp;+896,&nbsp;-332)</em></sub>
   - 🐛 [fix] Cycle bold directory colors, dim separators and activity labels, and distinguish filename stems from extensions. Align spinner, prefix, status, and metric colors and display subsecond durations in milliseconds.
   - 🧪 [test] Add ANSI contracts for native and cross-platform paths, preserved separators, control escaping, and summaries. Extend real remark reporter comparisons at 80 and 160 columns; all 101 tests pass with 100% statement, line, and function coverage and 95.65% branches.
@@ -39,6 +41,10 @@
     🧪 [test] Require every declared route in the documentation output and retain startup icon checks.
     📝 [docs] Explain the Pages routing compatibility step and record the public-site finding in the quality review.
   - 📝 [docs] Synchronize inspector hosting contributor guidance
+
+### 📝 Documentation
+
+- [`324ac72`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/324ac729a108855ecca9cfbb37a3cd20a35595d7 "Diff: 1 file, +53 | -5") — 📝 [docs] Generate the complete 1.0.0 release changelog&nbsp;<sub><em>(1&nbsp;file,&nbsp;+53,&nbsp;-5)</em></sub>
 
 ### 🧹 Chores
 
