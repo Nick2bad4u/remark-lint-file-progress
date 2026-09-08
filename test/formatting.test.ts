@@ -271,7 +271,7 @@ describe("eslint presentation parity", () => {
         [999, "999ms"],
         [1000, "1.00s"],
     ])(
-        "formats an observed duration of %i milliseconds",
+        "formats an observed duration of %s milliseconds",
         (durationMs, expected) => {
             expect.hasAssertions();
 
