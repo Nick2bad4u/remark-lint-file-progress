@@ -27,6 +27,10 @@
 
 ### 🛠️ Bug Fixes
 
+- [`522bd4e`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/522bd4e623af74f0040276acda2d16bc4176510c "Diff: 3 files, +52 | -4") — 🐛 [fix] Strip complete terminal sequences before parsing filenames&nbsp;<sub><em>(3&nbsp;files,&nbsp;+52,&nbsp;-4)</em></sub>
+  - 🐛 [fix] Remove ANSI payloads before relative-path and basename handling, while escaping remaining literal controls after segmentation.
+  - 🧪 [test] Cover hyperlink payloads containing separators in relative, POSIX, and Windows paths. All 104 tests pass with unchanged coverage thresholds.
+
 - [`7c546fd`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/7c546fd5f873cf3bd19e766a68a2854d20a33142 "Diff: 2 files, +39 | -303") — 🐛 [fix] Preserve exact filename spacing in the static terminal preview&nbsp;<sub><em>(2&nbsp;files,&nbsp;+39,&nbsp;-303)</em></sub>
 
 - [`6399cb2`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/6399cb2f73f10a15cdae8e339390ea3f3fe2b315 "Diff: 75 files, +896 | -332") — 🐛 [fix] Match progress presentation to the ESLint plugin&nbsp;<sub><em>(75&nbsp;files,&nbsp;+896,&nbsp;-332)</em></sub>
@@ -43,6 +47,8 @@
   - 📝 [docs] Synchronize inspector hosting contributor guidance
 
 ### 📝 Documentation
+
+- [`f56476e`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/f56476ebca3346c40515b8e5100cfa40efd9f835 "Diff: 1 file, +6 | -0") — 📝 [docs] Include the static preview correction in release notes&nbsp;<sub><em>(1&nbsp;file,&nbsp;+6,&nbsp;-0)</em></sub>
 
 - [`324ac72`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/324ac729a108855ecca9cfbb37a3cd20a35595d7 "Diff: 1 file, +53 | -5") — 📝 [docs] Generate the complete 1.0.0 release changelog&nbsp;<sub><em>(1&nbsp;file,&nbsp;+53,&nbsp;-5)</em></sub>
 
