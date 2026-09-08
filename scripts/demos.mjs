@@ -226,7 +226,9 @@ const lines = poster
                 return `<tspan fill="${color}" font-weight="${bold ? 700 : 400}" opacity="${dim ? 0.5 : 1}">${escape(stripVTControlCharacters(part))}</tspan>`;
             })
             .join("");
-        return `<text x="26" y="${70 + index * 23}">${spans}</text>`;
+        // Whitespace between SVG text spans renders as spaces in filenames.
+        // Preserve the exact terminal line when formatting this generated SVG.
+        return `<!-- prettier-ignore --><text x="26" y="${70 + index * 23}">${spans}</text>`;
     })
     .join("");
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="940" height="540" viewBox="0 0 940 540" role="img" aria-label="Colored remark progress with six observed files and a process summary"><rect width="940" height="540" rx="14" fill="#171b21"/><circle cx="28" cy="25" r="6" fill="#f97583"/><circle cx="48" cy="25" r="6" fill="#fabb72"/><circle cx="68" cy="25" r="6" fill="#a2fca2"/><g font-family="Consolas,monospace" font-size="16">${lines}</g></svg>\n`;
