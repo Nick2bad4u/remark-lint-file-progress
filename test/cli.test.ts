@@ -14,6 +14,7 @@ import { tmpdir } from "node:os";
 import * as path from "node:path";
 import { text } from "node:stream/consumers";
 import { pathToFileURL } from "node:url";
+import { stripVTControlCharacters } from "node:util";
 import { Worker } from "node:worker_threads";
 import { afterEach, describe, expect, it } from "vitest";
 
@@ -348,8 +349,15 @@ describe("remark integration", () => {
                 expect(progress.status).toBe(plain.status);
                 expect(plain.stderr).toContain("\u{1B}[");
                 expect(progress.stderr).toContain(plain.stderr);
+                expect(progress.stderr).toContain("\u{1B}[36m⠋\u{1B}[39m");
+                expect(progress.stderr).toContain(
+                    "\u{1B}[1m\u{1B}[32ma\u{1B}[39m\u{1B}[22m\u{1B}[32m.md\u{1B}[39m"
+                );
+                expect(progress.stderr).toContain("\u{1B}[33m1\u{1B}[39m");
                 expect(
-                    progress.stderr.match(/Files observed: 1/gv)
+                    stripVTControlCharacters(progress.stderr).match(
+                        /Files observed: 1/gv
+                    )
                 ).toHaveLength(1);
             }
         );

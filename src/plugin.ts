@@ -50,7 +50,7 @@ export type ProgressPluginOptions =
     | null
     | Readonly<ProgressSettings>;
 
-const version = "0.1.0";
+const version = "1.0.0";
 const registryKey = Symbol.for(
     `remark-lint-file-progress.registry.v1@${version}`
 );

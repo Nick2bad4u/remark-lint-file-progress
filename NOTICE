@@ -6,6 +6,8 @@ Original project: https://github.com/sibiraj-s/eslint-plugin-file-progress
 Behavior reference: https://github.com/Nick2bad4u/eslint-plugin-file-progress-2
 Implementation baseline: https://github.com/Nick2bad4u/stylelint-plugin-file-progress
 Adapted from Stylelint File Progress 1.0.1, commit e1416513611d9e214097c6a28fdc0501dd944ddd.
+Presentation is aligned with ESLint File Progress 2's progress-formatting helpers,
+verified at commit f42d6d453723e06fea58427e591b6bf7fc483044.
 
 The MIT license text accompanying this distribution applies to adapted portions.
 

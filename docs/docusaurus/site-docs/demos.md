@@ -2,7 +2,7 @@
 
 These deterministic recordings use the plugin's actual display controller. File events arrive at fixed intervals to make behavior reproducible; the timings illustrate process-wide metrics and do not measure individual file completion. Spinner frames advance with file events, and each update leaves a complete line.
 
-Animated GIFs follow the presentation used by eslint-plugin-file-progress-2. For a still image, see the [static terminal poster](../static/img/terminal.svg). The casts preserve selectable terminal text and ANSI colors.
+Animated GIFs follow the presentation used by eslint-plugin-file-progress-2: directory colors cycle through blue, cyan, green, magenta, and yellow; separators and labels are dim; filename stems are bold green and extensions are normal green. For a still image with the same palette and emphasis, see the [static terminal poster](../static/img/terminal.svg). The casts preserve selectable terminal text and ANSI colors.
 
 ## Presets
 

@@ -5,7 +5,7 @@ import { format, resolveConfig } from "prettier";
 import { optionDemos } from "./demo-cases.mjs";
 
 const badges =
-    "[![Project type: Remark plugin.](https://flat.badgen.net/static/type/Remark%20plugin/A21CAF)](https://github.com/Nick2bad4u/remark-lint-file-progress) [![npm publication pending.](https://flat.badgen.net/static/npm/not%20published/0E7490)](https://github.com/Nick2bad4u/remark-lint-file-progress) [![Node.js 22 or later.](https://flat.badgen.net/static/node/%3E%3D22/4D7C0F)](https://nodejs.org/) [![TypeScript declarations.](https://flat.badgen.net/static/types/TypeScript/6D28D9)](https://nick2bad4u.github.io/remark-lint-file-progress/developer/api) [![Codecov coverage.](https://flat.badgen.net/codecov/github/Nick2bad4u/remark-lint-file-progress/main)](https://codecov.io/gh/Nick2bad4u/remark-lint-file-progress/branch/main) [![GitHub Actions checks on main.](https://flat.badgen.net/github/checks/Nick2bad4u/remark-lint-file-progress/main)](https://github.com/Nick2bad4u/remark-lint-file-progress/actions) [![MIT license.](https://flat.badgen.net/static/license/MIT/4338CA)](https://github.com/Nick2bad4u/remark-lint-file-progress/blob/main/LICENSE)";
+    "[![Project type: Remark plugin.](https://flat.badgen.net/static/type/Remark%20plugin/A21CAF)](https://github.com/Nick2bad4u/remark-lint-file-progress) [![npm version.](https://flat.badgen.net/npm/v/remark-lint-file-progress)](https://www.npmjs.com/package/remark-lint-file-progress) [![Node.js 22 or later.](https://flat.badgen.net/static/node/%3E%3D22/4D7C0F)](https://nodejs.org/) [![TypeScript declarations.](https://flat.badgen.net/static/types/TypeScript/6D28D9)](https://nick2bad4u.github.io/remark-lint-file-progress/developer/api) [![Codecov coverage.](https://flat.badgen.net/codecov/github/Nick2bad4u/remark-lint-file-progress/main)](https://codecov.io/gh/Nick2bad4u/remark-lint-file-progress/branch/main) [![GitHub Actions checks on main.](https://flat.badgen.net/github/checks/Nick2bad4u/remark-lint-file-progress/main)](https://github.com/Nick2bad4u/remark-lint-file-progress/actions) [![MIT license.](https://flat.badgen.net/static/license/MIT/4338CA)](https://github.com/Nick2bad4u/remark-lint-file-progress/blob/main/LICENSE)";
 
 const write = process.argv.includes("--write");
 async function sync(file, expected) {
@@ -101,9 +101,15 @@ const readme = [
     "",
     "[Documentation](https://nick2bad4u.github.io/remark-lint-file-progress/) \u00b7 [All preset and option demos](https://nick2bad4u.github.io/remark-lint-file-progress/demos)",
     "",
-    "## Installation before publication",
+    "## Installation",
     "",
-    "Version {{VERSION}} is prepared for review and has not been published to npm. Build a local artifact:",
+    "Install the plugin and remark CLI in your project:",
+    "",
+    "```sh",
+    "npm install --save-dev remark-cli remark-lint-file-progress",
+    "```",
+    "",
+    "To test a local checkout before a release, build a tarball:",
     "",
     "```sh",
     "git clone https://github.com/Nick2bad4u/remark-lint-file-progress.git",
@@ -172,7 +178,7 @@ await sync(
         "",
         "These deterministic recordings use the plugin's actual display controller. File events arrive at fixed intervals to make behavior reproducible; the timings illustrate process-wide metrics and do not measure individual file completion. Spinner frames advance with file events, and each update leaves a complete line.",
         "",
-        "Animated GIFs follow the presentation used by eslint-plugin-file-progress-2. For a still image, see the [static terminal poster](../static/img/terminal.svg). The casts preserve selectable terminal text and ANSI colors.",
+        "Animated GIFs follow the presentation used by eslint-plugin-file-progress-2: directory colors cycle through blue, cyan, green, magenta, and yellow; separators and labels are dim; filename stems are bold green and extensions are normal green. For a still image with the same palette and emphasis, see the [static terminal poster](../static/img/terminal.svg). The casts preserve selectable terminal text and ANSI colors.",
         "",
         "## Presets",
         "",

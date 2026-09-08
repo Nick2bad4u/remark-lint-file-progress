@@ -1,4 +1,4 @@
-# Initial implementation quality review
+# Implementation quality review
 
 This review covers the native transformer, lifecycle, exports, tests, generated documentation, and automation. The primary baseline is [Stylelint File Progress 1.0.1](https://github.com/Nick2bad4u/stylelint-plugin-file-progress/tree/e1416513611d9e214097c6a28fdc0501dd944ddd). [ESLint File Progress 2](https://github.com/Nick2bad4u/eslint-plugin-file-progress-2) supplies the original display conventions and attribution. Existing remark plugins supply the native configuration and typing conventions.
 
@@ -38,7 +38,7 @@ The initial implementation passed `npm run release:verify` on Windows with Node 
 | Windows CP437 terminal                            | Both streams retained Unicode, ANSI colors, reporter methods, and columns on Node 22.0.0 |
 | Dependency audit                                  | Zero known vulnerabilities in the locked graph                                           |
 
-Review corrected the unified type boundary so the package uses the consumer's unified peer instead of imposing a nested current version on minimum-version consumers. It also retained Vitest 4.1.11 because the published shared Vitest configuration has a 4.1.x peer contract. The repository keeps an isolated-install proof using empty npm user/global configuration and the committed lifecycle allowlist.
+Review corrected the unified type boundary so the package uses the consumer's unified peer instead of imposing a nested current version on minimum-version consumers. It also retained Vitest 4.1.11 because the published shared Vitest configuration has a `^4.1.0` peer contract. The repository keeps an isolated-install proof using empty npm user/global configuration and the committed lifecycle allowlist.
 
 Compared with the Stylelint adapter, remark intentionally counts every transformer invocation instead of deduplicating PostCSS processing results. Mixed module formats share a canonical callable function, allowing unified's own registration merging to prevent duplicate transformers. These host-specific differences are tested rather than hidden behind a generic wrapper.
 
@@ -48,8 +48,20 @@ Review also added a single-read snapshot for accessor-backed options and isolate
 
 The Windows console writer was retained after checking [Node 22's libuv implementation](https://github.com/nodejs/node/blob/v22.0.0/deps/uv/src/win/tty.c). Its terminal write path emits text through `WriteConsoleW` before queuing the completion callback. The real CP437 probe showed complete shutdown summaries on both streams. Moving output to `beforeExit` would permit premature summaries in long-lived processors; raw descriptor writes would reintroduce the legacy-code-page regression.
 
-Version 0.1.0 is prepared without npm publication. CI retains Linux, Windows, and macOS coverage, strict quality and package checks, CodeQL, dependency/security scans, Codecov OIDC uploads, and Sonar quality analysis. Release automation validates a committed version and exact tarball before a separately authorized publication.
+Version 0.1.0 was initially delivered without publication and was subsequently published by the maintainer. CI retains Linux, Windows, and macOS coverage, strict quality and package checks, CodeQL, dependency/security scans, Codecov OIDC uploads, and Sonar quality analysis. Release automation validates a committed version and exact tarball before an authorized publication.
 
 Verification reports, workflow links, and the final main SHA accompany task completion. An unavailable integration is a named setup blocker, never a passing analysis. Shared remark configuration adoption is deferred until a later authorized publication.
 
 Public-site verification found that inspector navigation worked in the browser but refreshing a nested route returned GitHub Pages' 404 page. The documentation build now supplies an HTML entrypoint for every static inspector route, and the documentation gate checks those entrypoints alongside their startup icons.
+
+## Version 1.0.0 presentation review
+
+The presentation was compared directly with [ESLint File Progress 2's formatter](https://github.com/Nick2bad4u/eslint-plugin-file-progress-2/blob/f42d6d453723e06fea58427e591b6bf7fc483044/src/_internal/progress-formatting.ts). Directory segments now cycle through the same five bold colors, separators and activity labels are dim, and the filename stem has separate emphasis from its extension. Spinner, prefix, status, and detailed-summary colors also match. Subsecond durations use milliseconds.
+
+ANSI regression tests cover exact styles, the directory color cycle, filename extensions, Windows and POSIX paths, escaped controls, and summary metrics. The real CLI tests compare colored reporter output at 80 and 160 columns. All 31 demonstrations use the updated runtime; the static SVG preview now preserves the GIF renderer's palette, bold text, and dim text.
+
+The native remark contract remains unchanged: complete lines, one event per transformer execution, no animation timers, no reporter or stream patching, and no inferred problem counts. Public exports, options, presets, Node minimum, and Vitest 4 compatibility remain stable.
+
+Review also covered terminal control sequences containing path separators. The formatter strips complete ANSI sequences before choosing the path grammar, then escapes remaining literal controls within each segment. Regression tests cover relative and absolute Windows/POSIX inputs, both color modes, and basename output.
+
+Local version 1.0.0 verification on Windows passed 104 tests with 100% statement, line, and function coverage and 95.65% branch coverage. The initial results above remain the historical baseline.

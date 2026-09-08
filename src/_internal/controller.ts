@@ -11,7 +11,7 @@ import type {
     SpinnerStyle,
 } from "../types.js";
 
-import { formatProgress, formatSummary, relativePath } from "./formatting.js";
+import { formatProgress, formatSummary } from "./formatting.js";
 
 /** Injectable process boundary for deterministic lifecycle and terminal tests. */
 export interface ProgressHost {
@@ -151,15 +151,15 @@ export class ProgressController {
             return;
         this.#rendered = now;
         const frameSet = frames[settings.spinnerStyle];
+        const useColor = this.#host.color(settings.outputStream);
         const frame = this.#host.isTTY(settings.outputStream)
-            ? `${frameSet[(this.#count - 1) % frameSet.length] ?? "•"} `
+            ? `${pc.createColors(useColor).cyan(frameSet[(this.#count - 1) % frameSet.length] ?? "•")} `
             : "";
         const text = formatProgress(
-            settings.pathFormat === "basename"
-                ? filename
-                : relativePath(filename, this.#host.cwd()),
+            filename,
             settings,
-            this.#host.color(settings.outputStream)
+            useColor,
+            settings.pathFormat === "basename" ? "" : this.#host.cwd()
         );
         // File-driven frames leave a complete line: no timer can overwrite remark's reporter.
         this.#host.write(settings.outputStream, `${frame}${text}\n`, false);

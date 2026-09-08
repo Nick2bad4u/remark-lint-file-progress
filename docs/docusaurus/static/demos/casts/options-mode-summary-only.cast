@@ -3,5 +3,5 @@
 [0,"o","\u001b[1;36mRemark File Progress\u001b[0m  /  mode-summary-only\r\n"]
 [0,"o","\u001b[90mstderr | interactive terminal\u001b[0m\r\n\r\n"]
 [0,"o","\u001b[36m$\u001b[0m npx remark 'src/**/*.md'\r\n\r\n"]
-[2.98,"o","\u001b[36mRFP:\u001b[39m \u001b[32m✔ Lint complete.\u001b[39m\r\n"]
+[2.98,"o","\u001b[1m\u001b[36mRFP\u001b[39m\u001b[22m\u001b[2m:\u001b[22m \u001b[1m\u001b[32m✔\u001b[39m\u001b[22m \u001b[32mLint complete.\u001b[39m\r\n"]
 [3.38,"o","\r\n\u001b[36m$\u001b[0m "]
