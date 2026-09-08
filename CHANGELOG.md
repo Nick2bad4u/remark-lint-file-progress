@@ -48,9 +48,15 @@
 
 ### 📝 Documentation
 
+- [`d7614c4`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/d7614c472f667b327816df5d074f7551f86a58b8 "Diff: 1 file, +6 | -0") — 📝 [docs] Record the filename sanitization review in release notes&nbsp;<sub><em>(1&nbsp;file,&nbsp;+6,&nbsp;-0)</em></sub>
+
 - [`f56476e`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/f56476ebca3346c40515b8e5100cfa40efd9f835 "Diff: 1 file, +6 | -0") — 📝 [docs] Include the static preview correction in release notes&nbsp;<sub><em>(1&nbsp;file,&nbsp;+6,&nbsp;-0)</em></sub>
 
 - [`324ac72`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/324ac729a108855ecca9cfbb37a3cd20a35595d7 "Diff: 1 file, +53 | -5") — 📝 [docs] Generate the complete 1.0.0 release changelog&nbsp;<sub><em>(1&nbsp;file,&nbsp;+53,&nbsp;-5)</em></sub>
+
+### 🧪 Testing
+
+- [`b12e011`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/b12e011a6ebbd2ab662567251cca66c9c96061f8 "Diff: 1 file, +1 | -1") — 🧪 [test] Preserve fractional durations in regression case titles&nbsp;<sub><em>(1&nbsp;file,&nbsp;+1,&nbsp;-1)</em></sub>
 
 ### 🧹 Chores
 
