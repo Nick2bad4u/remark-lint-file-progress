@@ -1,7 +1,7 @@
 {
     "$schema": "https://www.schemastore.org/package.json",
     "name": "remark-lint-file-progress",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "private": false,
     "description": "Live per-file progress and process summaries for remark",
     "keywords": [

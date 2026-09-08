@@ -9,21 +9,12 @@ Remark File Progress shows files as they reach its native unified transformer. K
 
 ![Colored terminal output](../static/demos/presets/recommended-detailed.gif)
 
-## Try the unpublished package
+## Install the plugin
 
-Version 0.1.0 has not been published to npm. Clone the repository, select the Node version in `.node-version`, and use npm 12.0.2:
-
-```sh
-git clone https://github.com/Nick2bad4u/remark-lint-file-progress.git
-cd remark-lint-file-progress
-npm ci
-npm pack
-```
-
-Install remark-cli and the resulting tarball in your project:
+Install the plugin and remark CLI in your project:
 
 ```sh
-npm install --save-dev remark-cli /path/to/remark-lint-file-progress-0.1.0.tgz
+npm install --save-dev remark-cli remark-lint-file-progress
 ```
 
 Add the recommended preset to your remark configuration:

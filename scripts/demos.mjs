@@ -49,7 +49,7 @@ const samples = [
     "src/components/card.md",
     "src/components/button.md",
     "src/theme.md",
-    "src/utilities.md",
+    "src/guides/advanced/api/reference/examples/overview.md",
 ];
 const manifest = {};
 const recorded = check
@@ -184,11 +184,23 @@ const escape = (text) =>
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;");
-const palette = { 31: "#ff7b72", 32: "#7ee787", 36: "#79c0ff", 90: "#8b949e" };
+// Match agg 1.9.0's github-dark palette and its 50% faint text opacity.
+const foreground = "#eceff4";
+const palette = {
+    31: "#f97583",
+    32: "#a2fca2",
+    33: "#fabb72",
+    34: "#7db4f9",
+    35: "#c4a0f5",
+    36: "#1f6feb",
+    90: "#6a737d",
+};
 const lines = poster
     .split("\n")
     .map((line, index) => {
-        let color = "#e6edf3";
+        let color = foreground;
+        let bold = false;
+        let dim = false;
         const spans = line
             .split(/(\u001b\[[\d;]*m)/u)
             .map((part) => {
@@ -197,18 +209,27 @@ const lines = poster
                         .slice(2, -1)
                         .split(";")
                         .map(Number)) {
-                        if (code === 0 || code === 39) color = "#e6edf3";
-                        else if (palette[code]) color = palette[code];
+                        if (code === 0) {
+                            color = foreground;
+                            bold = false;
+                            dim = false;
+                        } else if (code === 39) color = foreground;
+                        else if (code === 1) bold = true;
+                        else if (code === 2) dim = true;
+                        else if (code === 22) {
+                            bold = false;
+                            dim = false;
+                        } else if (palette[code]) color = palette[code];
                     }
                     return "";
                 }
-                return `<tspan fill="${color}">${escape(stripVTControlCharacters(part))}</tspan>`;
+                return `<tspan fill="${color}" font-weight="${bold ? 700 : 400}" opacity="${dim ? 0.5 : 1}">${escape(stripVTControlCharacters(part))}</tspan>`;
             })
             .join("");
         return `<text x="26" y="${70 + index * 23}">${spans}</text>`;
     })
     .join("");
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="940" height="540" viewBox="0 0 940 540" role="img" aria-label="Colored remark progress with six observed files and a process summary"><rect width="940" height="540" rx="14" fill="#0d1117"/><circle cx="28" cy="25" r="6" fill="#ff7b72"/><circle cx="48" cy="25" r="6" fill="#e3b341"/><circle cx="68" cy="25" r="6" fill="#7ee787"/><g font-family="Consolas,monospace" font-size="16">${lines}</g></svg>\n`;
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="940" height="540" viewBox="0 0 940 540" role="img" aria-label="Colored remark progress with six observed files and a process summary"><rect width="940" height="540" rx="14" fill="#171b21"/><circle cx="28" cy="25" r="6" fill="#f97583"/><circle cx="48" cy="25" r="6" fill="#fabb72"/><circle cx="68" cy="25" r="6" fill="#a2fca2"/><g font-family="Consolas,monospace" font-size="16">${lines}</g></svg>\n`;
 const posterPath = "docs/docusaurus/static/img/terminal.svg";
 await sync(
     posterPath,

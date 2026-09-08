@@ -2,7 +2,7 @@
 
 Live filenames and configurable process summaries for remark.
 
-[![Project type: Remark plugin.](https://flat.badgen.net/static/type/Remark%20plugin/A21CAF)](https://github.com/Nick2bad4u/remark-lint-file-progress) [![npm publication pending.](https://flat.badgen.net/static/npm/not%20published/0E7490)](https://github.com/Nick2bad4u/remark-lint-file-progress) [![Node.js 22 or later.](https://flat.badgen.net/static/node/%3E%3D22/4D7C0F)](https://nodejs.org/) [![TypeScript declarations.](https://flat.badgen.net/static/types/TypeScript/6D28D9)](https://nick2bad4u.github.io/remark-lint-file-progress/developer/api) [![Codecov coverage.](https://flat.badgen.net/codecov/github/Nick2bad4u/remark-lint-file-progress/main)](https://codecov.io/gh/Nick2bad4u/remark-lint-file-progress/branch/main) [![GitHub Actions checks on main.](https://flat.badgen.net/github/checks/Nick2bad4u/remark-lint-file-progress/main)](https://github.com/Nick2bad4u/remark-lint-file-progress/actions) [![MIT license.](https://flat.badgen.net/static/license/MIT/4338CA)](https://github.com/Nick2bad4u/remark-lint-file-progress/blob/main/LICENSE)
+[![Project type: Remark plugin.](https://flat.badgen.net/static/type/Remark%20plugin/A21CAF)](https://github.com/Nick2bad4u/remark-lint-file-progress) [![npm version.](https://flat.badgen.net/npm/v/remark-lint-file-progress)](https://www.npmjs.com/package/remark-lint-file-progress) [![Node.js 22 or later.](https://flat.badgen.net/static/node/%3E%3D22/4D7C0F)](https://nodejs.org/) [![TypeScript declarations.](https://flat.badgen.net/static/types/TypeScript/6D28D9)](https://nick2bad4u.github.io/remark-lint-file-progress/developer/api) [![Codecov coverage.](https://flat.badgen.net/codecov/github/Nick2bad4u/remark-lint-file-progress/main)](https://codecov.io/gh/Nick2bad4u/remark-lint-file-progress/branch/main) [![GitHub Actions checks on main.](https://flat.badgen.net/github/checks/Nick2bad4u/remark-lint-file-progress/main)](https://github.com/Nick2bad4u/remark-lint-file-progress/actions) [![MIT license.](https://flat.badgen.net/static/license/MIT/4338CA)](https://github.com/Nick2bad4u/remark-lint-file-progress/blob/main/LICENSE)
 
 ![Colored per-file progress](https://raw.githubusercontent.com/Nick2bad4u/remark-lint-file-progress/main/docs/docusaurus/static/demos/presets/recommended.gif)
 
@@ -10,9 +10,15 @@ Live filenames and configurable process summaries for remark.
 
 [Documentation](https://nick2bad4u.github.io/remark-lint-file-progress/) · [All preset and option demos](https://nick2bad4u.github.io/remark-lint-file-progress/demos)
 
-## Installation before publication
+## Installation
 
-Version 0.1.0 is prepared for review and has not been published to npm. Build a local artifact:
+Install the plugin and remark CLI in your project:
+
+```sh
+npm install --save-dev remark-cli remark-lint-file-progress
+```
+
+To test a local checkout before a release, build a tarball:
 
 ```sh
 git clone https://github.com/Nick2bad4u/remark-lint-file-progress.git
@@ -24,7 +30,7 @@ npm pack
 In your consumer project, install remark-cli and the generated tarball using its actual path:
 
 ```sh
-npm install --save-dev remark-cli /path/to/remark-lint-file-progress-0.1.0.tgz
+npm install --save-dev remark-cli /path/to/remark-lint-file-progress-1.0.0.tgz
 ```
 
 ## Configuration
