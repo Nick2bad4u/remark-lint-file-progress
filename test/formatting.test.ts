@@ -178,6 +178,49 @@ describe("eslint presentation parity", () => {
 
     it.each([
         [
+            "foo/\u{1B}]8;;https://x/y\u{7}bar.md",
+            "",
+            "foo/bar.md",
+        ],
+        [
+            "/project/foo/\u{1B}]8;;https://x/y\u{7}bar.md",
+            "/project",
+            "foo/bar.md",
+        ],
+        [
+            "C:\\project\\foo\\\u{1B}]8;;https://x/y\u{7}bar.md",
+            String.raw`C:\project`,
+            String.raw`foo\bar.md`,
+        ],
+    ])(
+        "strips complete control sequences before parsing %s",
+        (filename, cwd, expected) => {
+            expect.hasAssertions();
+
+            const options = normalizeSettings({ hidePrefix: true });
+            const basenameOptions = normalizeSettings({
+                hidePrefix: true,
+                pathFormat: "basename",
+            });
+
+            expect(
+                stripVTControlCharacters(
+                    formatProgress(filename, options, true, cwd)
+                )
+            ).toBe(expected);
+            expect(formatProgress(filename, options, false, cwd)).toBe(
+                expected
+            );
+            expect(
+                stripVTControlCharacters(
+                    formatProgress(filename, basenameOptions, true, cwd)
+                )
+            ).toBe("bar.md");
+        }
+    );
+
+    it.each([
+        [
             0,
             32,
             "+",

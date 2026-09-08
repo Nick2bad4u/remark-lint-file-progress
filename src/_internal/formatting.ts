@@ -25,13 +25,16 @@ export function formatProgress(
         : `${colors.bold(colors.cyan("RFP"))} ${colors.dim(safeText(options.prefixMark))} `;
     if (options.mode === "compact" || options.hideFileName)
         return `${prefix}${colors.dim("linting project files...")}`;
+    // Control-sequence payloads can contain path separators. Strip complete
+    // sequences first; escape remaining literal controls after segmentation.
+    const cleanFilename = stripVTControlCharacters(filename);
     // Select the path grammar before making an absolute filename relative.
     // A backslash is a literal filename character in POSIX paths.
-    const paths = pathImplementation(filename);
+    const paths = pathImplementation(cleanFilename);
     const displayed =
         options.pathFormat === "basename"
-            ? paths.basename(filename)
-            : relativePath(filename, cwd);
+            ? paths.basename(cleanFilename)
+            : relativePath(cleanFilename, cwd);
     const text = formatPathSegments(displayed, paths, colors);
     if (options.hidePrefix) return text;
     const layout = options.fileNameOnNewLine ? `\n${colors.dim("  ↳")}` : "";

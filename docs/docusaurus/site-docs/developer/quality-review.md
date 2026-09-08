@@ -62,4 +62,6 @@ ANSI regression tests cover exact styles, the directory color cycle, filename ex
 
 The native remark contract remains unchanged: complete lines, one event per transformer execution, no animation timers, no reporter or stream patching, and no inferred problem counts. Public exports, options, presets, Node minimum, and Vitest 4 compatibility remain stable.
 
-Local version 1.0.0 verification on Windows passed 101 tests with 100% statement, line, and function coverage and 95.65% branch coverage. The initial results above remain the historical baseline.
+Review also covered terminal control sequences containing path separators. The formatter strips complete ANSI sequences before choosing the path grammar, then escapes remaining literal controls within each segment. Regression tests cover relative and absolute Windows/POSIX inputs, both color modes, and basename output.
+
+Local version 1.0.0 verification on Windows passed 104 tests with 100% statement, line, and function coverage and 95.65% branch coverage. The initial results above remain the historical baseline.
