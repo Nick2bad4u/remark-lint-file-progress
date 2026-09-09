@@ -48,6 +48,10 @@ Interactive terminals replace the previous progress display, including multiline
 
 The default stderr stream preserves Markdown and JSON trees written to stdout. Choosing stdout mixes progress into that stream. Reporters usually share stderr with progress; disable the plugin or use `hide: true` with `showSummaryWhenHidden: false` when a consumer requires reporter-only output.
 
+Redraw tracking covers Node's stdout/stderr stream writes. A native addon, `fs.writeSync`, or child process with inherited terminal descriptors can move the cursor without updating those counters. Embedders using those writers must choose `mode: "summary-only"` or disable progress; live redraw cannot safely track them without controlling the host's output transport. Redirecting the other stream to a regular file remains supported and does not prevent terminal redraw.
+
+Width calculations use the standard narrow presentation of East Asian Ambiguous characters, matching VS Code's integrated terminal defaults. Terminals configured to render those characters wide may retain earlier progress rows after wrapping. Use summary-only mode when the terminal's character widths differ from that model. The plugin does not change locale, fonts, width preferences, or terminal dimensions.
+
 CLI `--quiet`, `--silent`, and `--no-color` configure remark's reporter, not this plugin. Use the plugin's `hide`/`ttyOnly` settings and the standard `NO_COLOR` environment variable for its output. Throttling affects displayed paths while counts continue; compact mode updates a generic activity frame in terminals and announces activity once in redirected output.
 
 The process exit code determines summary styling. A zero exit code can coexist with warnings; `remark --frail` changes the host's warning exit behavior. Programmatic callers manage their own exit status. The plugin neither counts diagnostics nor changes their severity.

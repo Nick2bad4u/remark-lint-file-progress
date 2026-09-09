@@ -179,13 +179,46 @@ export class ProgressController {
 }
 
 const streamWrites: Record<OutputStream, number> = { stderr: 0, stdout: 0 };
-const onStreamOutputError = (): void => {
-    /* Output is best effort. */
+const streamErrors: Record<OutputStream, WeakSet<Readonly<Error>>> = {
+    stderr: new WeakSet(),
+    stdout: new WeakSet(),
 };
+const streamErrorHandlers: Record<
+    OutputStream,
+    (error: Readonly<Error>) => void
+> = {
+    stderr: (error) => {
+        handleStreamOutputError("stderr", error);
+    },
+    stdout: (error) => {
+        handleStreamOutputError("stdout", error);
+    },
+};
+
+/**
+ * Only absorb errors reported by our own write callbacks.
+ *
+ * @throws The original error when an unrelated stream failure has no host
+ *   listener.
+ */
+function handleStreamOutputError(
+    stream: OutputStream,
+    error: Readonly<Error>
+): void {
+    if (
+        !streamErrors[stream].delete(error) &&
+        process[stream].listenerCount("error") === 1
+    )
+        // eslint-disable-next-line unicorn/prefer-error-is-error -- Error.isError is unavailable on the advertised Node 22.0.0 minimum.
+        throw error instanceof Error
+            ? error
+            : new Error("Unhandled output stream error", { cause: error });
+}
 
 /** Keep one temporary error listener while stream writes are pending. */
 function writeStreamOutput(stream: OutputStream, text: string): void {
     const output = process[stream];
+    const onStreamOutputError = streamErrorHandlers[stream];
     if (streamWrites[stream] === 0) output.on("error", onStreamOutputError);
     streamWrites[stream] += 1;
     const complete = (): void => {
@@ -194,7 +227,9 @@ function writeStreamOutput(stream: OutputStream, text: string): void {
             output.removeListener("error", onStreamOutputError);
     };
     try {
-        output.write(text, () => {
+        output.write(text, (error) => {
+            // Node calls the write callback before emitting the corresponding error.
+            if (error) streamErrors[stream].add(error);
             queueMicrotask(complete);
         });
     } catch {
@@ -222,8 +257,10 @@ export const processHost: ProgressHost = {
     },
     terminal: (stream) => {
         const { columns, rows } = process[stream];
-        const stdout = process.stdout.bytesWritten;
-        const stderr = process.stderr.bytesWritten;
+        // A redirected stream cannot move the selected terminal's cursor, and
+        // regular-file SyncWriteStreams do not expose bytesWritten.
+        const stdout = process.stdout.isTTY ? process.stdout.bytesWritten : 0;
+        const stderr = process.stderr.isTTY ? process.stderr.bytesWritten : 0;
         if (
             ![
                 columns,
