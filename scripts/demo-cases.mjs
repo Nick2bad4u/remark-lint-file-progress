@@ -19,7 +19,8 @@ export const optionDemos = [
     {
         name: "hideFileName",
         options: { hideFileName: true },
-        description: "Announce activity once without listing filenames.",
+        description:
+            "Show generic activity without filenames; redirected output announces it once.",
     },
     {
         name: "hidePrefix",

@@ -30,7 +30,7 @@ npm pack
 In your consumer project, install remark-cli and the generated tarball using its actual path:
 
 ```sh
-npm install --save-dev remark-cli /path/to/remark-lint-file-progress-1.0.0.tgz
+npm install --save-dev remark-cli /path/to/remark-lint-file-progress-1.0.1.tgz
 ```
 
 ## Configuration
@@ -67,7 +67,7 @@ The callable plugin also works with `remark().use(progress, options)`. Pass `fal
 - `recommended`: Show each file using the default display options.
 - `recommended-ci`: Hide all plugin output when CI is exactly true.
 - `recommended-ci-detailed`: Hide live output in CI while retaining the detailed process summary.
-- `recommended-compact`: Announce generic activity once, without showing filenames.
+- `recommended-compact`: Show generic activity without filenames; redirected output announces it once.
 - `recommended-detailed`: Show filenames and the detailed process summary.
 - `recommended-summary-only`: Show only the final process summary.
 - `recommended-tty`: Show output only when stderr is an interactive terminal.

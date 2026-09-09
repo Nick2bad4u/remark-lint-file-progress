@@ -181,6 +181,7 @@ function harness(isTTY = false, useColor = false) {
         isTTY: () => isTTY,
         now: () => now,
         onExit,
+        terminal: () => ({ columns: 80, revision: "0", rows: 24 }),
         write,
     };
     return {

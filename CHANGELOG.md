@@ -1,7 +1,34 @@
 <!-- markdownlint-disable -->
 <!-- eslint-disable markdown/no-missing-label-refs -->
+<!-- Repeated category headings belong to separate releases. -->
+<!-- lint disable no-duplicate-headings -->
 
 # 📜 Changelog
+
+## ✨ What's Changed in v1.0.1
+
+- <b>Commit Range: ➡️</b> [`v1.0.0...v1.0.1`](https://github.com/Nick2bad4u/remark-lint-file-progress/compare/v1.0.0...v1.0.1 "View full commit range on GitHub")
+
+### 🛠️ Bug Fixes
+
+- [`380c57d`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/380c57d7538f8fd3a869b762dd40b5f6b9a8719d "Diff: 6 files, +137 | -24") — 🐛 [fix] Preserve redirected terminal redraw and unrelated stream errors&nbsp;<sub><em>(6&nbsp;files,&nbsp;+137,&nbsp;-24)</em></sub>
+
+- [`f0d54fb`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/f0d54fbbcd7b94e68227a6046dc92b8c48180033 "Diff: 80 files, +971 | -215") — 🐛 [fix] Replace live terminal progress without erasing remark reports&nbsp;<sub><em>(80&nbsp;files,&nbsp;+971,&nbsp;-215)</em></sub>
+  - 🐛 [fix] Reclaim only owned terminal rows, including multiline and wrapped Unicode paths; preserve intervening stdout/stderr output and Windows console transport.
+  - 🧪 [test] Add terminal emulator and real CLI regressions; retain 90% coverage gates and all ESM/CommonJS consumers.
+  - 📝 [docs] Regenerate 31 colored demos, capture the live static preview, and document redraw boundaries and the justified Unicode-width dependency allowance.
+  - 🧹 [chore] Prepare 1.0.1 with verified lifecycle installation and bundled MIT attribution.
+
+### 🧪 Testing
+
+- [`4f8b5a2`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/4f8b5a292f81ddb78363339c02674ee22a1f6b01 "Diff: 2 files, +21 | -1") — 🧪 [test] Isolate CP437 color checks and record 1.0.1 release notes&nbsp;<sub><em>(2&nbsp;files,&nbsp;+21,&nbsp;-1)</em></sub>
+
+### 🔧 Build System
+
+- [`2a11286`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/2a11286dd70ee7066fe8ffaef5033d00fe8f7c65 "Diff: 2 files, +5 | -15") — 👷 [build] Resolve the actionlint archive advisory before release&nbsp;<sub><em>(2&nbsp;files,&nbsp;+5,&nbsp;-15)</em></sub>
+
+> [!NOTE]
+> **Release comparison**: https://github.com/Nick2bad4u/remark-lint-file-progress/compare/v1.0.0...v1.0.1
 
 ## ✨ What's Changed in v1.0.0
 

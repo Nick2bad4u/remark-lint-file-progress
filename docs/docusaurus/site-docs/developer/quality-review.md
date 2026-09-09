@@ -4,7 +4,7 @@ This review covers the native transformer, lifecycle, exports, tests, generated 
 
 ## Runtime comparison
 
-Display settings and seven presets match Stylelint 1.0.1, with an RFP prefix and Markdown filenames. The controller retains complete lines, file-driven frames, Windows Unicode transport, worker capture, escaped terminal controls, best-effort writes, and process shutdown summaries.
+Display settings and seven presets match Stylelint 1.0.1, with an RFP prefix and Markdown filenames. The controller supports terminal redraws, file-driven frames, Windows Unicode transport, worker capture, escaped terminal controls, best-effort writes, and process shutdown summaries.
 
 The adapter is a synchronous unified transformer. It observes a VFile without changing its tree, messages, or output. Shared function identity across module formats lets unified merge duplicate registrations. Reusing a VFile in another processing run records another event. The controller does not retain a permanent set of VFiles.
 
@@ -65,3 +65,17 @@ The native remark contract remains unchanged: complete lines, one event per tran
 Review also covered terminal control sequences containing path separators. The formatter strips complete ANSI sequences before choosing the path grammar, then escapes remaining literal controls within each segment. Regression tests cover relative and absolute Windows/POSIX inputs, both color modes, and basename output.
 
 Local version 1.0.0 verification on Windows passed 104 tests with 100% statement, line, and function coverage and 95.65% branch coverage. The initial results above remain the historical baseline.
+
+## Version 1.0.1 terminal review
+
+The redraw behavior was compared with the ESLint controller and its nanospinner renderer. Interactive output now replaces the previous display, including the shared config's two-line filename layout. Frames remain driven by observed files, without animation timers or stream patching. Redirected output continues to use ordinary lines.
+
+Redraw ownership is checked against both process streams' byte counts and terminal dimensions. Intervening reporter output, resizing, unknown geometry, and displays taller than the viewport prevent clearing. Unicode grapheme widths account for wrapped paths without changing terminal dimensions. Direct descriptor writes cannot be observed through stream counters and require progress to be disabled by the embedding application.
+
+Terminal-emulator regressions cover successive files, multiline and wrapped Unicode paths, combining accents, both streams, interleaved colored diagnostics and partial lines, resizing, hidden summaries, throttling, and compact frames. Real remark CLI runs verify that diagnostics remain visible at 80 and 160 columns. All 31 casts and GIFs are regenerated; the static preview is captured from an emulated live terminal screen.
+
+The complete locked dependency graph reports no known vulnerabilities. The shared ESLint config now resolves eslint-plugin-actionlint 1.0.6, which replaces adm-zip with filtered extraction of the expected executable. Coverage thresholds and security gates remain unchanged. The dependency lint rule allows only string-width in the root manifest: the suggested fast-string-width 3.0.2 measures a zero-width space as a visible cell, which can erase an unrelated terminal row. A wrapped zero-width-space filename regression protects this requirement.
+
+Review also verified redraw with stdout redirected to a regular file and protected unrelated stream errors while progress writes are pending. Only errors delivered to a progress write callback are absorbed; unrelated host errors retain their existing handlers or unhandled-error behavior. Compact-mode documentation distinguishes interactive events from redirected output. Raw descriptor writers and nonstandard character-width settings remain documented embedding boundaries, with summary-only mode as the compatible alternative.
+
+Local 1.0.1 validation passed 133 tests with 100% statements, lines, and functions and 96.04% branches. The complete release gate passed, including all seven packed preset subpaths, both module formats, minimum/current remark hosts, strict declarations, all 31 demo integrity checks, and the Docusaurus build. An isolated npm 12 install passed with empty user/global configuration and the committed lifecycle policy.

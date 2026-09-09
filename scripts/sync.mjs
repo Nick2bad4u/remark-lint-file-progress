@@ -56,7 +56,7 @@ const descriptions = {
     "recommended-ci-detailed":
         "Hide live output in CI while retaining the detailed process summary.",
     "recommended-compact":
-        "Announce generic activity once, without showing filenames.",
+        "Show generic activity without filenames; redirected output announces it once.",
     "recommended-detailed": "Show filenames and the detailed process summary.",
     "recommended-summary-only": "Show only the final process summary.",
     "recommended-tty":
@@ -176,7 +176,7 @@ await sync(
     [
         "# Colored terminal demos",
         "",
-        "These deterministic recordings use the plugin's actual display controller. File events arrive at fixed intervals to make behavior reproducible; the timings illustrate process-wide metrics and do not measure individual file completion. Spinner frames advance with file events, and each update leaves a complete line.",
+        "These deterministic recordings use the plugin's actual display controller. File events arrive at fixed intervals to make behavior reproducible; the timings illustrate process-wide metrics and do not measure individual file completion. Spinner frames advance with file events. Interactive terminals replace the previous display; redirected output leaves ordinary lines. Intervening reporter writes are preserved.",
         "",
         "Animated GIFs follow the presentation used by eslint-plugin-file-progress-2: directory colors cycle through blue, cyan, green, magenta, and yellow; separators and labels are dim; filename stems are bold green and extensions are normal green. For a still image with the same palette and emphasis, see the [static terminal poster](../static/img/terminal.svg). The casts preserve selectable terminal text and ANSI colors.",
         "",

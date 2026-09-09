@@ -3,5 +3,5 @@
 [0,"o","\u001b[1;36mRemark File Progress\u001b[0m  /  showSummaryWhenHidden\r\n"]
 [0,"o","\u001b[90mstderr | interactive terminal\u001b[0m\r\n\r\n"]
 [0,"o","\u001b[36m$\u001b[0m npx remark 'src/**/*.md'\r\n\r\n"]
-[2.98,"o","\u001b[1m\u001b[36mRFP\u001b[39m\u001b[22m\u001b[2m:\u001b[22m \u001b[1m\u001b[32m✔\u001b[39m\u001b[22m \u001b[32mLint complete.\u001b[39m\r\n\u001b[2m  Files observed:\u001b[22m \u001b[33m6\u001b[39m\r\n\u001b[2m  Elapsed since first file:\u001b[22m \u001b[33m2.60s\u001b[39m\r\n\u001b[2m  Observed throughput:\u001b[22m \u001b[33m2.31 files/s\u001b[39m\r\n\u001b[2m  Process exit code:\u001b[22m \u001b[32m0\u001b[39m\r\n"]
+[2.98,"o","\r\n\u001b[1m\u001b[36mRFP\u001b[39m\u001b[22m\u001b[2m:\u001b[22m \u001b[1m\u001b[32m✔\u001b[39m\u001b[22m \u001b[32mLint complete.\u001b[39m\r\n\u001b[2m  Files observed:\u001b[22m \u001b[33m6\u001b[39m\r\n\u001b[2m  Elapsed since first file:\u001b[22m \u001b[33m2.60s\u001b[39m\r\n\u001b[2m  Observed throughput:\u001b[22m \u001b[33m2.31 files/s\u001b[39m\r\n\u001b[2m  Process exit code:\u001b[22m \u001b[32m0\u001b[39m\r\n"]
 [3.38,"o","\r\n\u001b[36m$\u001b[0m "]

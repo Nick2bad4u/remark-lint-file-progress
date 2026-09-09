@@ -19,6 +19,13 @@ const config = [
     },
     ...nick2bad4u.configs.all,
     {
+        files: ["package.json"],
+        name: "Accurate Unicode widths protect reporter rows; fast-string-width 3.0.2 counts zero-width characters as cells (test/terminal.test.ts)",
+        rules: {
+            "depend/ban-dependencies": ["error", { allowed: ["string-width"] }],
+        },
+    },
+    {
         files: ["src/plugin.ts", "src/types.ts"],
         name: "Public declarations stay self-contained instead of imposing type-fest's ES2025 library globals on consumers",
         rules: {

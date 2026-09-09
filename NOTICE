@@ -15,3 +15,11 @@ The CommonJS entrypoint bundles MIT-licensed helpers from ts-extras.
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 Source: https://github.com/sindresorhus/ts-extras
 The accompanying MIT permission notice also applies to these bundled helpers.
+
+The CommonJS entrypoint also bundles string-width, get-east-asian-width,
+strip-ansi, and ansi-regex, distributed under the same MIT permission notice.
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
+Sources: https://github.com/sindresorhus/string-width
+https://github.com/sindresorhus/get-east-asian-width
+https://github.com/chalk/strip-ansi
+https://github.com/chalk/ansi-regex

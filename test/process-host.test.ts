@@ -28,6 +28,71 @@ vi.mock(import("node:fs"), async (importOriginal) => ({
 }));
 
 describe("process boundary", () => {
+    it.each(
+        [
+            { columns: 80, rows: 24, stderr: 20, stdout: 10, valid: true },
+            { columns: null, rows: 24, stderr: 20, stdout: 10, valid: false },
+            { columns: 80, rows: null, stderr: 20, stdout: 10, valid: false },
+            { columns: 1, rows: 24, stderr: 20, stdout: 10, valid: false },
+            { columns: 80, rows: 1, stderr: 20, stdout: 10, valid: false },
+            { columns: 80, rows: 24, stderr: null, stdout: 10, valid: false },
+            { columns: 80, rows: 24, stderr: 20, stdout: null, valid: false },
+        ]
+            .map((example) => ({ ...example, stdoutTty: true }))
+            .concat([
+                {
+                    columns: 80,
+                    rows: 24,
+                    stderr: 20,
+                    stdout: null,
+                    stdoutTty: false,
+                    valid: true,
+                },
+            ])
+    )(
+        "reads terminal geometry and both output counters: %j",
+        ({ columns, rows, stderr, stdout, stdoutTty, valid }) => {
+            expect.hasAssertions();
+
+            const properties = [
+                { key: "columns", output: process.stderr, value: columns },
+                { key: "rows", output: process.stderr, value: rows },
+                { key: "bytesWritten", output: process.stderr, value: stderr },
+                { key: "bytesWritten", output: process.stdout, value: stdout },
+                { key: "isTTY", output: process.stderr, value: true },
+                { key: "isTTY", output: process.stdout, value: stdoutTty },
+            ].map((property) => ({
+                ...property,
+                descriptor: Object.getOwnPropertyDescriptor(
+                    property.output,
+                    property.key
+                ),
+            }));
+            const expected = valid
+                ? {
+                      columns: 80,
+                      revision: `${stdoutTty ? 10 : 0}:20`,
+                      rows: 24,
+                  }
+                : undefined;
+            try {
+                for (const { key, output, value } of properties)
+                    Object.defineProperty(output, key, {
+                        configurable: true,
+                        value,
+                    });
+
+                expect(processHost.terminal("stderr")).toStrictEqual(expected);
+            } finally {
+                for (const { descriptor, key, output } of properties) {
+                    if (descriptor)
+                        Object.defineProperty(output, key, descriptor);
+                    else Reflect.deleteProperty(output, key);
+                }
+            }
+        }
+    );
+
     it.each(["stderr", "stdout"] as const)(
         "preserves Windows terminal Unicode and ANSI output on %s, including shutdown",
         async (stream) => {
@@ -112,6 +177,57 @@ describe("process boundary", () => {
         }
     });
 
+    it.each(["stderr", "stdout"] as const)(
+        "preserves unrelated errors and host handlers while %s writes are pending",
+        async (stream) => {
+            expect.hasAssertions();
+
+            environment.mainThread = false;
+            const output = process[stream];
+            const before = output.listenerCount("error");
+            const completions: ((error?: Error) => void)[] = [];
+            const write = vi
+                .spyOn(output, "write")
+                .mockImplementation((...args) => {
+                    const complete = args.at(-1);
+                    if (typeof complete === "function")
+                        completions.push(complete);
+                    return true;
+                });
+            const handler = vi.fn<(error: Error) => void>();
+            try {
+                processHost.write(stream, "pending\n", false);
+                const unrelated = new Error("unrelated host failure");
+
+                expect(before).toBe(0);
+                expect(() => output.emit("error", unrelated)).toThrow(
+                    unrelated
+                );
+                expect(() =>
+                    output.emit("error", { message: "host failure" })
+                ).toThrow("Unhandled output stream error");
+
+                output.on("error", handler);
+                output.emit("error", unrelated);
+
+                expect(handler).toHaveBeenCalledExactlyOnceWith(unrelated);
+
+                const ownError = new Error("closed progress pipe");
+                for (const complete of completions) complete(ownError);
+
+                expect(() => output.emit("error", ownError)).not.toThrow();
+
+                await Promise.resolve();
+
+                expect(output.listenerCount("error")).toBe(before + 1);
+            } finally {
+                output.removeListener("error", handler);
+                write.mockRestore();
+                environment.mainThread = true;
+            }
+        }
+    );
+
     it("tolerates a working directory that no longer exists", () => {
         expect.hasAssertions();
 
@@ -136,9 +252,9 @@ describe("process boundary", () => {
                 .spyOn(process.stdout, "write")
                 .mockImplementationOnce((...args) => {
                     const complete = args.at(-1);
-                    if (failed)
-                        process.stdout.emit("error", new Error("EPIPE"));
-                    if (typeof complete === "function") complete();
+                    const error = failed ? new Error("EPIPE") : undefined;
+                    if (typeof complete === "function") complete(error);
+                    if (error) process.stdout.emit("error", error);
                     return true;
                 });
             try {
