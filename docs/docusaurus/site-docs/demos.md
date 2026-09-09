@@ -1,8 +1,15 @@
+---
+sidebar_label: Terminal demos
+description: Watch every preset and display option using reproducible recordings from the actual Remark progress controller.
+---
+
 # Colored terminal demos
 
-These deterministic recordings use the plugin's actual display controller. File events arrive at fixed intervals to make behavior reproducible; the timings illustrate process-wide metrics and do not measure individual file completion. Spinner frames advance with file events. Interactive terminals replace the previous display; redirected output leaves ordinary lines. Intervening reporter writes are preserved.
+These deterministic recordings use the plugin's actual display controller. File events arrive at fixed intervals to make behavior reproducible; the timings illustrate process-wide metrics and do not measure individual file completion. Spinner frames advance with file events, replacing the previous progress block in an interactive terminal. Redirected output uses complete lines.
 
-Animated GIFs follow the presentation used by eslint-plugin-file-progress-2: directory colors cycle through blue, cyan, green, magenta, and yellow; separators and labels are dim; filename stems are bold green and extensions are normal green. For a still image with the same palette and emphasis, see the [static terminal poster](../static/img/terminal.svg). The casts preserve selectable terminal text and ANSI colors.
+Animated GIFs follow the presentation used by eslint-plugin-file-progress-2. For a still image, see the [static terminal poster](../static/img/terminal.svg). The casts preserve selectable terminal text and ANSI colors.
+
+Jump to [presets](#presets), [options](#options), or [recording instructions](#reproduce-the-recordings). Choose a [preset](./presets.md) or review the [option defaults](./activate.md#options) while comparing output.
 
 ## Presets
 

@@ -1,0 +1,109 @@
+{
+    "badges": [
+        {
+            "alt": "Latest npm version",
+            "href": "https://www.npmjs.com/package/remark-lint-file-progress",
+            "src": "https://flat.badgen.net/npm/v/remark-lint-file-progress?color=0E7490"
+        },
+        {
+            "alt": "Native unified plugin",
+            "href": "https://unifiedjs.com/learn/guide/using-plugins/",
+            "src": "https://flat.badgen.net/static/plugin/unified/BE185D"
+        },
+        {
+            "alt": "Supported Node.js versions",
+            "href": "https://www.npmjs.com/package/remark-lint-file-progress",
+            "src": "https://flat.badgen.net/npm/node/remark-lint-file-progress?color=4D7C0F"
+        },
+        {
+            "alt": "Bundled TypeScript declarations",
+            "href": "https://www.npmjs.com/package/remark-lint-file-progress",
+            "src": "https://flat.badgen.net/npm/types/remark-lint-file-progress?color=6D28D9"
+        },
+        {
+            "alt": "Latest GitHub release",
+            "href": "https://github.com/Nick2bad4u/remark-lint-file-progress/releases",
+            "src": "https://flat.badgen.net/github/release/Nick2bad4u/remark-lint-file-progress?color=0F766E"
+        },
+        {
+            "alt": "Codecov coverage",
+            "href": "https://codecov.io/gh/Nick2bad4u/remark-lint-file-progress",
+            "src": "https://flat.badgen.net/codecov/github/Nick2bad4u/remark-lint-file-progress"
+        },
+        {
+            "alt": "GitHub Actions checks on main",
+            "href": "https://github.com/Nick2bad4u/remark-lint-file-progress/actions",
+            "src": "https://flat.badgen.net/github/checks/Nick2bad4u/remark-lint-file-progress/main"
+        },
+        {
+            "alt": "GitHub stars",
+            "href": "https://github.com/Nick2bad4u/remark-lint-file-progress/stargazers",
+            "src": "https://flat.badgen.net/github/stars/Nick2bad4u/remark-lint-file-progress?color=B45309"
+        },
+        {
+            "alt": "MIT license",
+            "href": "https://github.com/Nick2bad4u/remark-lint-file-progress/blob/main/LICENSE",
+            "src": "https://flat.badgen.net/npm/license/remark-lint-file-progress?color=4338CA"
+        }
+    ],
+    "demoCount": 31,
+    "optionCount": 17,
+    "presets": [
+        {
+            "audience": "Follow each Markdown file",
+            "description": "Show each file using the default display options.",
+            "icon": "🟢",
+            "label": "Everyday progress",
+            "name": "recommended",
+            "tone": "teal"
+        },
+        {
+            "audience": "Keep CI logs quiet",
+            "description": "Hide all plugin output when CI is exactly true.",
+            "icon": "🔵",
+            "label": "Quiet in CI",
+            "name": "recommended-ci",
+            "tone": "blue"
+        },
+        {
+            "audience": "Keep a summary in CI",
+            "description": "Hide live output in CI while retaining the detailed process summary.",
+            "icon": "🟣",
+            "label": "CI with a summary",
+            "name": "recommended-ci-detailed",
+            "tone": "violet"
+        },
+        {
+            "audience": "Show activity without paths",
+            "description": "Show generic activity without filenames; redirected output announces it once.",
+            "icon": "🟡",
+            "label": "Compact activity",
+            "name": "recommended-compact",
+            "tone": "amber"
+        },
+        {
+            "audience": "See process-wide metrics",
+            "description": "Show filenames and the detailed process summary.",
+            "icon": "🟠",
+            "label": "Detailed progress",
+            "name": "recommended-detailed",
+            "tone": "orange"
+        },
+        {
+            "audience": "Read the final summary",
+            "description": "Show only the final process summary.",
+            "icon": "🩷",
+            "label": "Summary only",
+            "name": "recommended-summary-only",
+            "tone": "pink"
+        },
+        {
+            "audience": "Respect redirected output",
+            "description": "Show output only when stderr is an interactive terminal.",
+            "icon": "🟦",
+            "label": "Interactive terminals",
+            "name": "recommended-tty",
+            "tone": "cyan"
+        }
+    ]
+}

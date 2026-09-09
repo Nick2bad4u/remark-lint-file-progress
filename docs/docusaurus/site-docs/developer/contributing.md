@@ -10,6 +10,12 @@ Run `npm run lint:all` for shared-config checks. Use `npm run lint:fix` and `npm
 
 Run `npm run sync:rules:write` and `npm run docs:demos:write` when changing options or presets. These commands build current source first; GIF regeneration requires [agg 1.9.0](https://github.com/asciinema/agg/releases/tag/v1.9.0). Their check counterparts compare output without modifying tracked files. Run `npm run docs:build` to compile the Docusaurus site and all three config inspectors. Every public API reflection must have TSDoc; the documentation build enforces 100% coverage.
 
+## Documentation layout
+
+The landing page lives in `docs/docusaurus/src/pages/index.tsx`; `src/css/custom.css` supplies the shared theme and colored navigation. Hand-authored guides live in `site-docs`. Edit `scripts/docs-catalog.mjs` for badges and preset descriptions, then run `npm run sync:rules:write` to update the README sections, preset pages, gallery, and homepage data. The option table comes from the implementation. Keep the README's generation markers intact.
+
+The docs build includes local search, public API documentation, and all three inspectors. `npm run docs:check-links` checks the expected routes, search index, preset links, demo assets, and inspector entrypoints. After layout changes, review desktop and mobile widths in both themes, keyboard navigation, search, demo playback, and direct inspector routes.
+
 ## Validation
 
 `npm run release:verify` runs the full local gate, including packed consumers on the minimum and current unified/remark boundaries. It does not publish. CI also exercises Linux, Windows, and macOS; minimum Node consumers are tested separately from the development install.

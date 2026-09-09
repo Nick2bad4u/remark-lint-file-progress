@@ -3,9 +3,7 @@ import { configs, configNames, meta } from "../dist/plugin.js";
 import { defaultSettings } from "../dist/_internal/options.js";
 import { format, resolveConfig } from "prettier";
 import { optionDemos } from "./demo-cases.mjs";
-
-const badges =
-    "[![Project type: Remark plugin.](https://flat.badgen.net/static/type/Remark%20plugin/A21CAF)](https://github.com/Nick2bad4u/remark-lint-file-progress) [![npm version.](https://flat.badgen.net/npm/v/remark-lint-file-progress)](https://www.npmjs.com/package/remark-lint-file-progress) [![Node.js 22 or later.](https://flat.badgen.net/static/node/%3E%3D22/4D7C0F)](https://nodejs.org/) [![TypeScript declarations.](https://flat.badgen.net/static/types/TypeScript/6D28D9)](https://nick2bad4u.github.io/remark-lint-file-progress/developer/api) [![Codecov coverage.](https://flat.badgen.net/codecov/github/Nick2bad4u/remark-lint-file-progress/main)](https://codecov.io/gh/Nick2bad4u/remark-lint-file-progress/branch/main) [![GitHub Actions checks on main.](https://flat.badgen.net/github/checks/Nick2bad4u/remark-lint-file-progress/main)](https://github.com/Nick2bad4u/remark-lint-file-progress/actions) [![MIT license.](https://flat.badgen.net/static/license/MIT/4338CA)](https://github.com/Nick2bad4u/remark-lint-file-progress/blob/main/LICENSE)";
+import { badges, presetDetails } from "./docs-catalog.mjs";
 
 const write = process.argv.includes("--write");
 async function sync(file, expected) {
@@ -27,9 +25,17 @@ if (
     (await readFile(".nvmrc", "utf8"))
 )
     throw new Error("Node version files differ");
+if (Object.keys(presetDetails).length !== configNames.length)
+    throw new Error(
+        "The documentation preset catalog must match the public exports"
+    );
 for (const name of configNames) {
-    if (!manifest.exports[`./configs/${name}`] || !configs[name])
-        throw new Error(`Missing preset export: ${name}`);
+    if (
+        !manifest.exports[`./configs/${name}`] ||
+        !configs[name] ||
+        !presetDetails[name]
+    )
+        throw new Error(`Missing preset export or documentation: ${name}`);
 }
 let rule = await readFile("docs/rules/activate.md", "utf8");
 const table = [
@@ -49,143 +55,166 @@ rule = rule.replace(
 );
 await sync("docs/rules/activate.md", rule);
 await sync("docs/docusaurus/site-docs/activate.md", rule);
+
+const presets = configNames.map((name) => {
+    const { audience, description, icon, label, tone } = presetDetails[name];
+    return { audience, description, icon, label, name, tone };
+});
+const presetTable = (base, suffix = "") =>
+    [
+        "| Preset | Best for | Behavior |",
+        "| --- | --- | --- |",
+        ...presets.map(
+            ({ name, icon, audience, description }) =>
+                `| [${icon} ${name}](${base}${name}${suffix}) | ${audience} | ${description} |`
+        ),
+    ].join("\n");
+
+await mkdir("docs/docusaurus/src/data", { recursive: true });
+await sync(
+    "docs/docusaurus/src/data/project.json",
+    JSON.stringify({
+        badges,
+        demoCount: configNames.length + optionDemos.length,
+        optionCount: Object.keys(defaultSettings).length,
+        presets,
+    })
+);
+
 await mkdir("docs/docusaurus/site-docs/presets", { recursive: true });
-const descriptions = {
-    recommended: "Show each file using the default display options.",
-    "recommended-ci": "Hide all plugin output when CI is exactly true.",
-    "recommended-ci-detailed":
-        "Hide live output in CI while retaining the detailed process summary.",
-    "recommended-compact":
-        "Show generic activity without filenames; redirected output announces it once.",
-    "recommended-detailed": "Show filenames and the detailed process summary.",
-    "recommended-summary-only": "Show only the final process summary.",
-    "recommended-tty":
-        "Show output only when stderr is an interactive terminal.",
-};
 await sync(
     "docs/docusaurus/site-docs/presets.md",
     [
-        "# Presets",
+        "---",
+        "sidebar_label: Presets",
+        "description: Compare seven Remark progress presets for local terminals, CI, compact activity, and process summaries.",
+        "---",
         "",
-        "Every preset is a native unified preset. Import its subpath and add it to your remark plugins array, or pass it to processor.use().",
+        "# Choose your progress preset",
         "",
-        "| Preset | Behavior |",
-        "| --- | --- |",
-        ...configNames.map(
-            (name) =>
-                `| [${name}](./presets/${name}.md) | ${descriptions[name]} |`
-        ),
+        "Every preset is a native unified preset. Export it from your remark config or combine it with existing presets in the `plugins` array.",
+        "",
+        "## Choose by workflow",
+        "",
+        presetTable("./presets/", ".md"),
+        "",
+        "## Use a preset",
+        "",
+        "```js",
+        'import recommended from "remark-lint-file-progress/configs/recommended";',
+        "",
+        "export default recommended;",
+        "```",
+        "",
+        "Compose existing presets with `plugins: [existingPreset, recommended]`. Each progress preset registers the same callable plugin and adds no lint diagnostics.",
+        "",
+        "## Customize or disable",
+        "",
+        "Add `[progress, options]` to your plugins array after the preset to customize the display, or `[progress, false]` to disable it. Unified merges repeated registrations. See [getting started](./getting-started.md#customize-the-display) and [all options](./activate.md#options).",
+        "",
+        "## CI and terminal behavior",
+        "",
+        "The two CI presets activate their CI behavior only when `CI` is exactly `true`. Outside CI, both display ordinary progress. The TTY preset checks stderr, the default output stream. Summary counts and timing cover the process lifetime; read [compatibility and metrics](./compatibility.md) before interpreting them.",
+        "",
+        "Watch [all preset recordings](./demos.md#presets), explore [option demonstrations](./demos.md#options), or use [troubleshooting](./troubleshooting.md) if your output differs.",
         "",
     ].join("\n")
 );
-for (const name of configNames)
+
+for (const { name, label, tone, description } of presets) {
     await sync(
         `docs/docusaurus/site-docs/presets/${name}.md`,
-        `# ${name}\n\n${descriptions[name]}\n\n\x60\x60\x60js\nimport preset from "remark-lint-file-progress/configs/${name}";\n\nexport default preset;\n\x60\x60\x60\n\n![${name} colored terminal demonstration](../../static/demos/presets/${name}.gif)\n\n${name.includes("-ci") ? "This recording uses CI=true. Outside CI, the preset displays ordinary progress.\n\n" : ""}See [all options](../activate.md) and [compatibility](../compatibility.md) for summary and terminal behavior.\n`
+        [
+            "---",
+            `sidebar_label: ${name}`,
+            `description: ${description}`,
+            "---",
+            "",
+            `# ${name}`,
+            "",
+            `<span className="rfp-pill rfp-tone-${tone}">${label}</span>`,
+            "",
+            description,
+            "",
+            "## Configuration",
+            "",
+            "```js",
+            `import preset from "remark-lint-file-progress/configs/${name}";`,
+            "",
+            "export default preset;",
+            "```",
+            "",
+            "Keep your existing shared configs before this preset.",
+            "",
+            "## Terminal preview",
+            "",
+            `![${name} colored terminal demonstration](../../static/demos/presets/${name}.gif)`,
+            "",
+            ...(name.includes("-ci")
+                ? [
+                      "This recording uses CI=true. Outside CI, the preset displays ordinary progress.",
+                      "",
+                  ]
+                : []),
+            "## Make it yours",
+            "",
+            `See [all options](../activate.md), [compare presets](../presets.md), and [compatibility](../compatibility.md) for summary and terminal behavior. Explore the [demo gallery](../demos.md#${name}) or follow the [setup guide](../getting-started.md).`,
+            "",
+        ].join("\n")
     );
+}
+
 await mkdir("docs/docusaurus/site-docs/developer", { recursive: true });
 await sync(
     "docs/docusaurus/site-docs/developer/contributing.md",
     await readFile("CONTRIBUTING.md", "utf8")
 );
-const readme = [
-    "# remark-lint-file-progress",
-    "",
-    "Live filenames and configurable process summaries for remark.",
-    "",
-    badges,
-    "",
-    "![Colored per-file progress](https://raw.githubusercontent.com/Nick2bad4u/remark-lint-file-progress/main/docs/docusaurus/static/demos/presets/recommended.gif)",
-    "",
-    "![Detailed process summary](https://raw.githubusercontent.com/Nick2bad4u/remark-lint-file-progress/main/docs/docusaurus/static/demos/presets/recommended-detailed.gif)",
-    "",
-    "[Documentation](https://nick2bad4u.github.io/remark-lint-file-progress/) \u00b7 [All preset and option demos](https://nick2bad4u.github.io/remark-lint-file-progress/demos)",
-    "",
-    "## Installation",
-    "",
-    "Install the plugin and remark CLI in your project:",
-    "",
-    "```sh",
-    "npm install --save-dev remark-cli remark-lint-file-progress",
-    "```",
-    "",
-    "To test a local checkout before a release, build a tarball:",
-    "",
-    "```sh",
-    "git clone https://github.com/Nick2bad4u/remark-lint-file-progress.git",
-    "cd remark-lint-file-progress",
-    "npm ci",
-    "npm pack",
-    "```",
-    "",
-    "In your consumer project, install remark-cli and the generated tarball using its actual path:",
-    "",
-    "```sh",
-    "npm install --save-dev remark-cli /path/to/remark-lint-file-progress-{{VERSION}}.tgz",
-    "```",
-    "",
-    "## Configuration",
-    "",
-    "Use a native preset in your remark configuration:",
-    "",
-    "```js",
-    'import recommended from "remark-lint-file-progress/configs/recommended";',
-    "",
-    "export default recommended;",
-    "```",
-    "",
-    "Or add the plugin alongside your existing shared config:",
-    "",
-    "```js",
-    'import shared from "remark-config-nick2bad4u";',
-    'import progress from "remark-lint-file-progress";',
-    "",
-    "export default {",
-    "    plugins: [shared, [progress, { detailedSuccess: true }]],",
-    "};",
-    "```",
-    "",
-    "```sh",
-    "npx remark README.md --frail --no-stdout",
-    "```",
-    "",
-    "The callable plugin also works with `remark().use(progress, options)`. Pass `false` to disable it; omitted options, `true`, and `null` use the defaults.",
-    "",
-    "## Options and presets",
-    "",
-    "[All display options](docs/rules/activate.md) preserve the Stylelint/ESLint progress names and defaults.",
-    "",
-    ...configNames.map((name) => "- `" + name + "`: " + descriptions[name]),
-    "",
-    "## Compatibility",
-    "",
-    "Node.js 22+, unified 11, VFile 6, remark 15, remark-cli 12, and remark-lint 10. The plugin exports ESM and CommonJS with declarations; CommonJS consumers dynamically import the ESM-only remark host.",
-    "",
-    "Each transformer execution records one event, including repeat processing of one VFile. Progress goes to stderr by default, preserving Markdown and JSON tree output on stdout. Reporters normally share stderr with progress; hide progress when consuming that stream as machine-readable output.",
-    "",
-    "Summaries measure observed events over the process lifetime, without inferred problem counts or per-file completion times. Windows terminal output preserves Unicode and colors through Node's console-aware streams.",
-    "",
-    "See [contributing](CONTRIBUTING.md) for development and verification, and [NOTICE](NOTICE) for attribution.",
-]
-    .join("\n")
-    .replaceAll("{{VERSION}}", manifest.version);
+
+let readme = await readFile("README.md", "utf8");
+const readmeSections = {
+    badges: badges
+        .map(({ alt, href, src }) => `[![${alt}.](${src})](${href})`)
+        .join(" "),
+    presets: presetTable(
+        "https://nick2bad4u.github.io/remark-lint-file-progress/presets/"
+    ),
+};
+for (const [section, content] of Object.entries(readmeSections)) {
+    const startMarker = `<!-- ${section}:start -->`;
+    const endMarker = `<!-- ${section}:end -->`;
+    const start = readme.indexOf(startMarker);
+    const end = readme.indexOf(endMarker);
+    if (start < 0 || end < start)
+        throw new Error(`README is missing generated ${section} markers`);
+    readme =
+        readme.slice(0, start + startMarker.length) +
+        `\n\n${content}\n\n` +
+        readme.slice(end);
+}
 await sync("README.md", readme);
 
 await sync(
     "docs/docusaurus/site-docs/demos.md",
     [
+        "---",
+        "sidebar_label: Terminal demos",
+        "description: Watch every preset and display option using reproducible recordings from the actual Remark progress controller.",
+        "---",
+        "",
         "# Colored terminal demos",
         "",
-        "These deterministic recordings use the plugin's actual display controller. File events arrive at fixed intervals to make behavior reproducible; the timings illustrate process-wide metrics and do not measure individual file completion. Spinner frames advance with file events. Interactive terminals replace the previous display; redirected output leaves ordinary lines. Intervening reporter writes are preserved.",
+        "These deterministic recordings use the plugin's actual display controller. File events arrive at fixed intervals to make behavior reproducible; the timings illustrate process-wide metrics and do not measure individual file completion. Spinner frames advance with file events, replacing the previous progress block in an interactive terminal. Redirected output uses complete lines.",
         "",
-        "Animated GIFs follow the presentation used by eslint-plugin-file-progress-2: directory colors cycle through blue, cyan, green, magenta, and yellow; separators and labels are dim; filename stems are bold green and extensions are normal green. For a still image with the same palette and emphasis, see the [static terminal poster](../static/img/terminal.svg). The casts preserve selectable terminal text and ANSI colors.",
+        "Animated GIFs follow the presentation used by eslint-plugin-file-progress-2. For a still image, see the [static terminal poster](../static/img/terminal.svg). The casts preserve selectable terminal text and ANSI colors.",
+        "",
+        "Jump to [presets](#presets), [options](#options), or [recording instructions](#reproduce-the-recordings). Choose a [preset](./presets.md) or review the [option defaults](./activate.md#options) while comparing output.",
         "",
         "## Presets",
         "",
-        ...configNames.flatMap((name) => [
+        ...presets.flatMap(({ name, description }) => [
             `### ${name}`,
             "",
-            descriptions[name],
+            description,
             "",
             `![${name} terminal recording](../static/demos/presets/${name}.gif)`,
             "",
