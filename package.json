@@ -207,6 +207,10 @@
         "presync:configs-rules-matrix": "npm run build",
         "sync:configs-rules-matrix": "node scripts/sync.mjs",
         "sync:node-version-files": "node scripts/sync-node-version-files.mjs",
+        "sync:npm-version": "node scripts/sync-npm-version.mjs",
+        "sync:npm-version:check": "node scripts/sync-npm-version.mjs --check",
+        "sync:peer-eslint-range": "node scripts/sync-peer-eslint-range.mjs",
+        "sync:peer-typescript-range": "node scripts/sync-peer-typescript-range.mjs",
         "presync:readme-rules-table": "npm run build",
         "sync:readme-rules-table": "node scripts/sync.mjs",
         "presync:rules:check": "npm run build",
@@ -331,9 +335,9 @@
         "provenance": true
     },
     "allowScripts": {
-        "unrs-resolver@1.12.2": true,
-        "fsevents": false,
+        "core-js": false,
         "esbuild@0.28.2": true,
-        "core-js": false
+        "fsevents": false,
+        "unrs-resolver@1.12.2": true
     }
 }
