@@ -1,3 +1,4 @@
+import { Terminal } from "@xterm/headless";
 import { spawnSync } from "node:child_process";
 import { once } from "node:events";
 import {
@@ -319,18 +320,19 @@ describe("remark integration", () => {
 
         it.each([80, 160])(
             "preserves colored reporter content and %i terminal columns",
-            (columns) => {
+            async (columns) => {
                 expect.hasAssertions();
 
                 const folder = fixture();
                 const preload = path.join(folder, "terminal.mjs");
                 writeFileSync(
                     preload,
-                    `import assert from 'node:assert/strict';\nfor (const output of [process.stdout,process.stderr]) {Object.defineProperty(output,'isTTY',{value:true,configurable:true});Object.defineProperty(output,'columns',{value:${columns},configurable:true});const write=output.write;process.on('exit',()=>{assert.equal(output.write,write);assert.equal(output.columns,${columns});assert.equal(output.isTTY,true);});}\n`
+                    `import assert from 'node:assert/strict';\nfor (const output of [process.stdout,process.stderr]) {Object.defineProperty(output,'isTTY',{value:true,configurable:true});Object.defineProperty(output,'columns',{value:${columns},configurable:true});Object.defineProperty(output,'rows',{value:40,configurable:true});const write=output.write;process.on('exit',()=>{assert.equal(output.write,write);assert.equal(output.columns,${columns});assert.equal(output.rows,40);assert.equal(output.isTTY,true);});}\n`
                 );
                 const env = { FORCE_COLOR: "1" };
                 const args = [
                     "a.md",
+                    "b.md",
                     "--color",
                     "--frail",
                     "--no-stdout",
@@ -353,12 +355,42 @@ describe("remark integration", () => {
                 expect(progress.stderr).toContain(
                     "\u{1B}[1m\u{1B}[32ma\u{1B}[39m\u{1B}[22m\u{1B}[32m.md\u{1B}[39m"
                 );
-                expect(progress.stderr).toContain("\u{1B}[33m1\u{1B}[39m");
+                expect(progress.stderr).toContain("\u{1B}[33m2\u{1B}[39m");
                 expect(
                     stripVTControlCharacters(progress.stderr).match(
-                        /Files observed: 1/gv
+                        /Files observed: 2/gv
                     )
                 ).toHaveLength(1);
+                expect(progress.stderr).toContain("\u{1B}[2K");
+
+                const terminal = new Terminal({
+                    allowProposedApi: true,
+                    cols: columns,
+                    convertEol: true,
+                    rows: 40,
+                });
+                try {
+                    await new Promise<void>((resolve) => {
+                        terminal.write(progress.stderr, resolve);
+                    });
+                    const lines: string[] = [];
+                    for (
+                        let index = 0;
+                        index < terminal.buffer.active.length;
+                        index += 1
+                    ) {
+                        const line = terminal.buffer.active.getLine(index);
+                        if (line) lines.push(line.translateToString(true));
+                    }
+                    const screen = lines.join("\n");
+
+                    expect(screen).toContain("Unexpected heading rank");
+                    expect(lines.join("")).toContain("heading-increment");
+                    expect(screen).toContain("Process exit code: 1");
+                    expect(screen.match(/RFP • linting/gv)).toHaveLength(1);
+                } finally {
+                    terminal.dispose();
+                }
             }
         );
     });

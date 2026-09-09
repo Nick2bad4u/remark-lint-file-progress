@@ -72,7 +72,7 @@ The success message follows a zero process exit code. It does not imply that rem
 
 ## Terminal behavior
 
-Terminal output advances the chosen spinner frame when a file is displayed, then ends the line. No background animation or active timer runs to interfere with remark's report. Redirected output uses plain lines without frames or color.
+Interactive terminals replace the previous progress display as file events advance the spinner. Multiline filenames and wrapped paths are cleared together. If another stdout/stderr stream write or a terminal resize intervenes, the previous display is left intact to protect reporter output. No background animation or active timer runs. Redirected output uses plain lines without frames or cursor controls.
 
 On color-capable terminals, the spinner and bold `RFP` prefix are cyan. Directory names cycle through bold blue, cyan, green, magenta, and yellow, with dim separators. The filename stem is bold green and its extension is green. Activity labels, the prefix mark, and the multiline arrow are dim. Summaries use green or red for process status, dim metric labels, and yellow counts, durations, and throughput. These styles follow ESLint File Progress 2 while preserving remark's reporter colors and terminal settings.
 

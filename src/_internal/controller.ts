@@ -1,9 +1,8 @@
 import { writeSync } from "node:fs";
-import { platform } from "node:os";
 import { performance } from "node:perf_hooks";
 import { isMainThread } from "node:worker_threads";
 import pc from "picocolors";
-import { isFinite } from "ts-extras";
+import { isFinite, isSafeInteger } from "ts-extras";
 
 import type {
     NormalizedProgressSettings,
@@ -12,6 +11,7 @@ import type {
 } from "../types.js";
 
 import { formatProgress, formatSummary } from "./formatting.js";
+import { TerminalDisplay, type TerminalSnapshot } from "./terminal.js";
 
 /** Injectable process boundary for deterministic lifecycle and terminal tests. */
 export interface ProgressHost {
@@ -20,6 +20,7 @@ export interface ProgressHost {
     readonly isTTY: (stream: OutputStream) => boolean;
     readonly now: () => number;
     readonly onExit: (callback: (code: number) => void) => void;
+    readonly terminal: (stream: OutputStream) => TerminalSnapshot | undefined;
     readonly write: (
         stream: OutputStream,
         text: string,
@@ -82,6 +83,7 @@ const frames: Record<SpinnerStyle, readonly string[]> = {
  */
 export class ProgressController {
     #count = 0;
+    readonly #display: TerminalDisplay;
     #finished = false;
     readonly #host: ProgressHost;
     #rendered = -Infinity;
@@ -90,6 +92,7 @@ export class ProgressController {
 
     public constructor(host: ProgressHost) {
         this.#host = host;
+        this.#display = new TerminalDisplay(host);
     }
 
     /**
@@ -104,8 +107,10 @@ export class ProgressController {
             !settings ||
             !this.#canShow(settings) ||
             (settings.hide && !settings.showSummaryWhenHidden)
-        )
+        ) {
+            this.#display.clear(true);
             return;
+        }
         const text = formatSummary(
             {
                 durationMs: Math.max(0, this.#host.now() - this.#started),
@@ -115,7 +120,7 @@ export class ProgressController {
             settings,
             this.#host.color(settings.outputStream)
         );
-        this.#host.write(settings.outputStream, `${text}\n`, true);
+        this.#display.write(settings.outputStream, text, true);
     }
 
     /**
@@ -146,6 +151,7 @@ export class ProgressController {
         // Compact output is an activity notice, not one identical line per file.
         if (
             (settings.mode === "compact" || settings.hideFileName) &&
+            !this.#host.isTTY(settings.outputStream) &&
             isFinite(this.#rendered)
         )
             return;
@@ -161,8 +167,7 @@ export class ProgressController {
             useColor,
             settings.pathFormat === "basename" ? "" : this.#host.cwd()
         );
-        // File-driven frames leave a complete line: no timer can overwrite remark's reporter.
-        this.#host.write(settings.outputStream, `${frame}${text}\n`, false);
+        this.#display.write(settings.outputStream, `${frame}${text}`, false);
     }
 
     #canShow(settings: Readonly<NormalizedProgressSettings>): boolean {
@@ -215,16 +220,30 @@ export const processHost: ProgressHost = {
     onExit: (callback) => {
         process.once("exit", callback);
     },
+    terminal: (stream) => {
+        const { columns, rows } = process[stream];
+        const stdout = process.stdout.bytesWritten;
+        const stderr = process.stderr.bytesWritten;
+        if (
+            ![
+                columns,
+                rows,
+                stdout,
+                stderr,
+            ].every(isSafeInteger) ||
+            columns < 2 ||
+            rows < 2
+        )
+            return undefined;
+        return { columns, revision: `${stdout}:${stderr}`, rows };
+    },
     write: (stream, text) => {
         // Progress must not crash linting when a downstream pipe closes.
 
-        if (
-            !isMainThread ||
-            (platform() === "win32" && process[stream].isTTY)
-        ) {
+        if (!isMainThread || process[stream].isTTY) {
             // Worker streams use message ports; numeric descriptors bypass captured output.
-            // Windows terminals need Node's Unicode and ANSI console handling;
-            // raw descriptor writes use the console code page and corrupt UTF-8.
+            // Windows terminals need Node's Unicode handling instead of raw code-page writes.
+            // TTY stream writes also expose byte counts for reporter-safe redraws.
             writeStreamOutput(stream, text);
             return;
         }

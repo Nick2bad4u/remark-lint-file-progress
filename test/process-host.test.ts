@@ -28,6 +28,52 @@ vi.mock(import("node:fs"), async (importOriginal) => ({
 }));
 
 describe("process boundary", () => {
+    it.each([
+        { columns: 80, rows: 24, stderr: 20, stdout: 10, valid: true },
+        { columns: null, rows: 24, stderr: 20, stdout: 10, valid: false },
+        { columns: 80, rows: null, stderr: 20, stdout: 10, valid: false },
+        { columns: 1, rows: 24, stderr: 20, stdout: 10, valid: false },
+        { columns: 80, rows: 1, stderr: 20, stdout: 10, valid: false },
+        { columns: 80, rows: 24, stderr: null, stdout: 10, valid: false },
+        { columns: 80, rows: 24, stderr: 20, stdout: null, valid: false },
+    ])(
+        "reads terminal geometry and both output counters: %j",
+        ({ columns, rows, stderr, stdout, valid }) => {
+            expect.hasAssertions();
+
+            const properties = [
+                { key: "columns", output: process.stderr, value: columns },
+                { key: "rows", output: process.stderr, value: rows },
+                { key: "bytesWritten", output: process.stderr, value: stderr },
+                { key: "bytesWritten", output: process.stdout, value: stdout },
+            ].map((property) => ({
+                ...property,
+                descriptor: Object.getOwnPropertyDescriptor(
+                    property.output,
+                    property.key
+                ),
+            }));
+            try {
+                for (const { key, output, value } of properties)
+                    Object.defineProperty(output, key, {
+                        configurable: true,
+                        value,
+                    });
+                const expected = valid
+                    ? { columns: 80, revision: "10:20", rows: 24 }
+                    : undefined;
+
+                expect(processHost.terminal("stderr")).toStrictEqual(expected);
+            } finally {
+                for (const { descriptor, key, output } of properties) {
+                    if (descriptor)
+                        Object.defineProperty(output, key, descriptor);
+                    else Reflect.deleteProperty(output, key);
+                }
+            }
+        }
+    );
+
     it.each(["stderr", "stdout"] as const)(
         "preserves Windows terminal Unicode and ANSI output on %s, including shutdown",
         async (stream) => {

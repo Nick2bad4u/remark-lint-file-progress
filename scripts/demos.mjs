@@ -3,6 +3,7 @@ import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { stripVTControlCharacters } from "node:util";
+import xterm from "@xterm/headless";
 import { format, resolveConfig } from "prettier";
 import { ProgressController } from "../dist/_internal/controller.js";
 import {
@@ -10,6 +11,8 @@ import {
     possibleOptions,
 } from "../dist/_internal/options.js";
 import { optionDemos } from "./demo-cases.mjs";
+
+const { Terminal } = xterm;
 
 const check = process.argv.includes("--check");
 for (const option of Object.keys(possibleOptions))
@@ -86,6 +89,15 @@ for (const demo of cases) {
     let milliseconds = 0;
     let onExit;
     let display = "";
+    let preview =
+        demo.name === "recommended-detailed"
+            ? new Terminal({
+                  allowProposedApi: true,
+                  cols: 94,
+                  convertEol: true,
+                  rows: 22,
+              })
+            : undefined;
     const stream = settings.outputStream;
     const events = [
         [
@@ -96,6 +108,7 @@ for (const demo of cases) {
     ];
     const emit = (text) => {
         display += text;
+        preview?.write(text);
         events.push([
             milliseconds / 1000,
             "o",
@@ -115,6 +128,11 @@ for (const demo of cases) {
         onExit: (callback) => {
             onExit = callback;
         },
+        terminal: () => ({
+            columns: 94,
+            revision: String(display.length),
+            rows: 22,
+        }),
         write: (selected, text) => {
             assert.equal(selected, stream);
             emit(text);
@@ -123,6 +141,34 @@ for (const demo of cases) {
     for (const filename of samples) {
         milliseconds += 380;
         controller.observe(`/demo/${filename}`, settings);
+    }
+    if (preview) {
+        await new Promise((resolve) => preview.write("", resolve));
+        // Capture the actual live screen before the summary replaces the filename.
+        const lines = [];
+        for (let row = 0; row <= preview.buffer.active.cursorY; row += 1) {
+            const line = preview.buffer.active.getLine(row);
+            let text = "";
+            let style = "";
+            for (let column = 0; column < preview.cols; column += 1) {
+                const cell = line.getCell(column);
+                if (cell.getWidth() === 0) continue;
+                const color = cell.getFgColor();
+                const codes = [0];
+                if (cell.isFgPalette())
+                    codes.push(color < 8 ? color + 30 : color + 82);
+                if (cell.isBold()) codes.push(1);
+                if (cell.isDim()) codes.push(2);
+                const nextStyle = codes.join(";");
+                if (style !== nextStyle) text += `\u001b[${nextStyle}m`;
+                style = nextStyle;
+                text += cell.getChars() || " ";
+            }
+            lines.push(text);
+        }
+        poster = lines.join("\n");
+        preview.dispose();
+        preview = undefined;
     }
     milliseconds += 700;
     onExit(demo.exitCode ?? 0);
@@ -163,7 +209,6 @@ for (const demo of cases) {
             recorded[stem],
             `Demo integrity mismatch: ${stem}`
         );
-    if (demo.name === "recommended-detailed") poster = display;
 }
 assert.equal(Object.keys(manifest).length, 31);
 if (check)
@@ -231,7 +276,7 @@ const lines = poster
         return `<!-- prettier-ignore --><text x="26" y="${70 + index * 23}">${spans}</text>`;
     })
     .join("");
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="940" height="540" viewBox="0 0 940 540" role="img" aria-label="Colored remark progress with six observed files and a process summary"><rect width="940" height="540" rx="14" fill="#171b21"/><circle cx="28" cy="25" r="6" fill="#f97583"/><circle cx="48" cy="25" r="6" fill="#fabb72"/><circle cx="68" cy="25" r="6" fill="#a2fca2"/><g font-family="Consolas,monospace" font-size="16">${lines}</g></svg>\n`;
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="940" height="540" viewBox="0 0 940 540" role="img" aria-label="Colored remark live progress showing the latest Markdown filename"><rect width="940" height="540" rx="14" fill="#171b21"/><circle cx="28" cy="25" r="6" fill="#f97583"/><circle cx="48" cy="25" r="6" fill="#fabb72"/><circle cx="68" cy="25" r="6" fill="#a2fca2"/><g font-family="Consolas,monospace" font-size="16">${lines}</g></svg>\n`;
 const posterPath = "docs/docusaurus/static/img/terminal.svg";
 await sync(
     posterPath,

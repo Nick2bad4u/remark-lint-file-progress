@@ -295,6 +295,7 @@ const originalWrite=output.write;
 const columns=output.columns;
 output.write('\\u001b[35mReporter before: élève / 東京 / ✔\\u001b[0m\\n');
 remark().use(progress,{outputStream:stream,detailedSuccess:true,pathFormat:'basename'}).processSync({path:'élève-東京.md',value:'# Title\\n'});
+remark().use(progress,{outputStream:stream,detailedSuccess:true,fileNameOnNewLine:true}).processSync({path:'docs/東京/élève-final.md',value:'# Final\\n'});
 output.write('\\u001b[35mReporter after: élève / 東京 / ✔\\u001b[0m\\n');
 assert.equal(output.write,originalWrite);
 assert.equal(output.columns,columns);

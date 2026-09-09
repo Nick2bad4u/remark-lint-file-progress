@@ -1,6 +1,6 @@
 # recommended-compact
 
-Announce generic activity once, without showing filenames.
+Show generic activity without filenames; redirected output announces it once.
 
 ```js
 import preset from "remark-lint-file-progress/configs/recommended-compact";
