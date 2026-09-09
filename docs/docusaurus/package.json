@@ -31,13 +31,14 @@
         "docs:api": "typedoc --options typedoc.config.json && npm --prefix ../.. run docs:check-api",
         "docs:build": "npm run docs:api && npm --prefix ../.. run build:eslint-inspector && npm --prefix ../.. run build:stylelint-inspector && npm --prefix ../.. run build:remark-inspector && docusaurus build",
         "serve": "docusaurus serve",
-        "start": "docusaurus start"
+        "start": "npm run docs:api && docusaurus start"
     },
     "dependencies": {
         "@docusaurus/core": "^3.10.2",
         "@docusaurus/plugin-content-docs": "^3.10.2",
         "@docusaurus/plugin-pwa": "^3.10.2",
         "@docusaurus/preset-classic": "^3.10.2",
+        "@easyops-cn/docusaurus-search-local": "^0.55.3",
         "react": "^19.2.8",
         "react-dom": "^19.2.8"
     },

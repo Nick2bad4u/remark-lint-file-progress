@@ -1,11 +1,11 @@
 ---
-slug: /
+slug: /overview
 sidebar_position: 1
 ---
 
 # See the Markdown file behind the wait
 
-Remark File Progress shows files as they reach its native unified transformer. Keep a readable trail of filenames, switch to compact activity, or show only a process summary.
+Remark File Progress shows files as they reach its native unified transformer. Follow filenames in an interactive terminal, switch to compact activity, or show only a process summary.
 
 ![Colored terminal output](../static/demos/presets/recommended-detailed.gif)
 

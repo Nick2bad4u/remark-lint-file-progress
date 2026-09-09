@@ -19,6 +19,26 @@ const config = [
     },
     ...nick2bad4u.configs.all,
     {
+        files: ["docs/docusaurus/src/pages/index.tsx"],
+        name: "Docusaurus requires an index page to serve the documentation homepage at the site root",
+        rules: { "canonical/filename-no-index": "off" },
+    },
+    {
+        files: [
+            "docs/docusaurus/docusaurus.config.ts",
+            "docs/docusaurus/sidebars.ts",
+            "docs/docusaurus/src/pages/index.tsx",
+        ],
+        name: "The generated JSON catalog is imported with the explicit extension required by native ESM import attributes",
+        rules: {
+            "import-x/extensions": [
+                "error",
+                "ignorePackages",
+                { json: "always" },
+            ],
+        },
+    },
+    {
         files: ["package.json"],
         name: "Accurate Unicode widths protect reporter rows; fast-string-width 3.0.2 counts zero-width characters as cells (test/terminal.test.ts)",
         rules: {

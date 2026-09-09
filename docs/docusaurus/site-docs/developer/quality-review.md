@@ -50,7 +50,7 @@ The Windows console writer was retained after checking [Node 22's libuv implemen
 
 Version 0.1.0 was initially delivered without publication and was subsequently published by the maintainer. CI retains Linux, Windows, and macOS coverage, strict quality and package checks, CodeQL, dependency/security scans, Codecov OIDC uploads, and Sonar quality analysis. Release automation validates a committed version and exact tarball before an authorized publication.
 
-Verification reports, workflow links, and the final main SHA accompany task completion. An unavailable integration is a named setup blocker, never a passing analysis. Shared remark configuration adoption is deferred until a later authorized publication.
+Verification reports, workflow links, and the final main SHA accompany task completion. An unavailable integration is a named setup blocker, never a passing analysis. Shared remark configuration adoption followed in remark-config-nick2bad4u 2.0.0, using the published progress plugin.
 
 Public-site verification found that inspector navigation worked in the browser but refreshing a nested route returned GitHub Pages' 404 page. The documentation build now supplies an HTML entrypoint for every static inspector route, and the documentation gate checks those entrypoints alongside their startup icons.
 
@@ -79,3 +79,13 @@ The complete locked dependency graph reports no known vulnerabilities. The share
 Review also verified redraw with stdout redirected to a regular file and protected unrelated stream errors while progress writes are pending. Only errors delivered to a progress write callback are absorbed; unrelated host errors retain their existing handlers or unhandled-error behavior. Compact-mode documentation distinguishes interactive events from redirected output. Raw descriptor writers and nonstandard character-width settings remain documented embedding boundaries, with summary-only mode as the compatible alternative.
 
 Local 1.0.1 validation passed 133 tests with 100% statements, lines, and functions and 96.04% branches. The complete release gate passed, including all seven packed preset subpaths, both module formats, minimum/current remark hosts, strict declarations, all 31 demo integrity checks, and the Docusaurus build. An isolated npm 12 install passed with empty user/global configuration and the committed lifecycle policy.
+
+## Documentation and dependency review
+
+The documentation portal now follows the polished Stylelint File Progress layout, with ESLint File Progress and Typefest as presentation references. The dedicated homepage includes package badges, linked technology pills, feature cards, a static terminal preview, optional animated playback, seven colored preset cards, and connected ecosystem links. Guides use five colored sidebar groups, local search, balanced footer columns, and edit links that lead to their real source or generator.
+
+A shared documentation catalog supplies the README badges, generated preset tables and pages, navigation, and homepage data. The existing 31 recordings remain protected by deterministic cast and integrity checks. The setup, troubleshooting, and resources guides explain native unified registration, process-wide summaries, reporter streams, and the three embedded inspectors without copying Stylelint rule syntax or cache claims.
+
+The dependency refresh retains Vitest 4.1.11 and incorporates remark-config-nick2bad4u 2.0.0, stylelint-config-nick2bad4u 4.0.1, jscpd 5.2.0, and Node 22 declarations. The repository now gets remark progress directly from the published shared config. Installation with empty npm user/global configuration passed, and the complete locked graph reports zero known vulnerabilities.
+
+Local verification retained all 133 passing runtime tests, 100% statements/lines/functions, 96.04% branches, and 38/38 documented public members. Packed ESM/CommonJS consumers passed with both host profiles on Node 26.7.0 and exact Node 22.0.0. Browser review covered desktop and mobile layouts in both themes, with no horizontal overflow or page errors.
