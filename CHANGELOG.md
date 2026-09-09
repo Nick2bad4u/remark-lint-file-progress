@@ -3,6 +3,21 @@
 
 # 📜 Changelog
 
+## ✨ What's Changed in v1.0.1
+
+- <b>Commit Range: ➡️</b> [`v1.0.0...v1.0.1`](https://github.com/Nick2bad4u/remark-lint-file-progress/compare/v1.0.0...v1.0.1 "View full commit range on GitHub")
+
+### 🛠️ Bug Fixes
+
+- [`f0d54fb`](https://github.com/Nick2bad4u/remark-lint-file-progress/commit/f0d54fbbcd7b94e68227a6046dc92b8c48180033 "Diff: 80 files, +971 | -215") — 🐛 [fix] Replace live terminal progress without erasing remark reports&nbsp;<sub><em>(80&nbsp;files,&nbsp;+971,&nbsp;-215)</em></sub>
+  - 🐛 [fix] Reclaim only owned terminal rows, including multiline and wrapped Unicode paths; preserve intervening stdout/stderr output and Windows console transport.
+  - 🧪 [test] Add terminal emulator and real CLI regressions; retain 90% coverage gates and all ESM/CommonJS consumers.
+  - 📝 [docs] Regenerate 31 colored demos, capture the live static preview, and document redraw boundaries and the justified Unicode-width dependency allowance.
+  - 🧹 [chore] Prepare 1.0.1 with verified lifecycle installation and bundled MIT attribution.
+
+> [!NOTE]
+> **Release comparison**: https://github.com/Nick2bad4u/remark-lint-file-progress/compare/v1.0.0...v1.0.1
+
 ## ✨ What's Changed in v1.0.0
 
 - <b>Commit Range: ➡️</b> [`74b9ddd...v1.0.0`](https://github.com/Nick2bad4u/remark-lint-file-progress/compare/74b9dddc2f1a12479afb4aeb4b97d59539fd4941...v1.0.0 "View full commit range on GitHub")

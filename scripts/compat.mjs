@@ -302,13 +302,18 @@ assert.equal(output.columns,columns);
 assert.match(codePage(),/437$/u);
 `
                 );
+                const consoleEnvironment = Object.fromEntries(
+                    Object.entries(childEnvironment).filter(
+                        ([name]) => name.toLowerCase() !== "no_color"
+                    )
+                );
                 for (const stream of ["stdout", "stderr"]) {
                     const consoleResult = spawnSync(
                         executable,
                         ["console.mjs", stream],
                         {
                             cwd: consumer,
-                            env: { ...childEnvironment, FORCE_COLOR: "1" },
+                            env: { ...consoleEnvironment, FORCE_COLOR: "1" },
                             stdio: "inherit",
                             timeout: 30000,
                         }
